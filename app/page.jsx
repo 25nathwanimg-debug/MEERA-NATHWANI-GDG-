@@ -542,7 +542,14 @@ export default function Home() {
           {/* Action Buttons */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
             <a
-              href="#team"
+              href="#contact"
+              onClick={(e) => {
+                e.preventDefault();
+                const el = document.getElementById('contact');
+                if (el) {
+                  el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+              }}
               className="brutal-box"
               style={{
                 backgroundColor: 'var(--card-bg)',
@@ -554,6 +561,7 @@ export default function Home() {
                 letterSpacing: '0.05em',
                 borderRadius: '8px',
                 display: 'inline-block',
+                cursor: 'pointer',
               }}
             >
               LEARN MORE
