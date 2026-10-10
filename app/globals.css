@@ -1,0 +1,149 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Silkscreen:wght@400;700&family=JetBrains+Mono:wght@500;700&display=swap');
+
+:root {
+  --bg-page: #ffffff;
+  --bg-grid: #eaeaea;
+  --text-main: #0a0a0a;
+  --text-muted: #52525b;
+  --card-bg: #ffffff;
+  --card-border: #000000;
+  --shadow-color: #000000;
+  --folder-bg: #000000;
+  --folder-input-bg: #ffffff;
+  --folder-input-text: #000000;
+  --folder-input-placeholder: #71717a;
+  --nav-btn-text: #000000;
+  --tag-bg: #000000;
+  --tag-text: #ffffff;
+  --faq-bg: #ffffff;
+  --faq-expanded-bg: #ffffff;
+  --ticket-left-top: #cfd3dc;
+  --ticket-left-bottom: #111827;
+  --ticket-right-bg: #f59e0b;
+  --footer-blue-bg: #3b82f6;
+  --footer-yellow-bg: #eab308;
+  --footer-purple-bg: #6366f1;
+}
+
+[data-theme='dark'] {
+  --bg-page: #0b0f17;
+  --bg-grid: #1a2233;
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --card-bg: #131a29;
+  --card-border: #ffffff;
+  --shadow-color: #000000;
+  --folder-bg: #1e293b;
+  --folder-input-bg: #0f172a;
+  --folder-input-text: #f8fafc;
+  --folder-input-placeholder: #64748b;
+  --nav-btn-text: #000000;
+  --tag-bg: #ffffff;
+  --tag-text: #000000;
+  --faq-bg: #131a29;
+  --faq-expanded-bg: #1e293b;
+  --ticket-left-top: #475569;
+  --ticket-left-bottom: #090d16;
+  --ticket-right-bg: #d97706;
+  --footer-blue-bg: #2563eb;
+  --footer-yellow-bg: #ca8a04;
+  --footer-purple-bg: #4f46e5;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+body {
+  background-color: var(--bg-page);
+  color: var(--text-main);
+  background-image: 
+    linear-gradient(to right, var(--bg-grid) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--bg-grid) 1px, transparent 1px);
+  background-size: 38px 38px;
+  background-position: center top;
+  min-height: 100vh;
+  overflow-x: hidden;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+/* Pixel Heading font */
+.font-pixel {
+  font-family: 'Silkscreen', cursive, sans-serif;
+  letter-spacing: -0.02em;
+}
+
+.font-mono-code {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* Neo-brutalist utilities */
+.brutal-box {
+  border: 2.5px solid var(--card-border);
+  box-shadow: 4px 4px 0px var(--shadow-color);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.brutal-box:hover {
+  transform: translate(-1.5px, -1.5px);
+  box-shadow: 6px 6px 0px var(--shadow-color);
+}
+
+.brutal-box:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0px var(--shadow-color);
+}
+
+.brutal-box-static {
+  border: 2.5px solid var(--card-border);
+  box-shadow: 5px 5px 0px var(--shadow-color);
+}
+
+.brutal-pill {
+  border: 2px solid #000000;
+  box-shadow: 3px 3px 0px #000000;
+  font-weight: 700;
+  border-radius: 10px;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.brutal-pill:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0px #000000;
+}
+
+.brutal-pill:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0px #000000;
+}
+
+/* Ticket notch styling */
+.ticket-container {
+  display: flex;
+  position: relative;
+}
+
+@media (max-width: 900px) {
+  .ticket-container {
+    flex-direction: column;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-page);
+}
+::-webkit-scrollbar-thumb {
+  background: #000000;
+  border-radius: 4px;
+}
