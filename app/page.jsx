@@ -12,7 +12,9 @@ import {
   ArrowUpRight,
   CheckCircle2,
   X,
-  Ticket
+  Ticket,
+  User,
+  ExternalLink
 } from 'lucide-react';
 
 const FAQ_ITEMS = [
@@ -54,6 +56,8 @@ export default function Home() {
   const [isRegisterOpen, setIsRegisterOpen] = useState(false);
   const [isEventDetailOpen, setIsEventDetailOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [isGalleryOpen, setIsGalleryOpen] = useState(false);
+  const [isPortfolioOpen, setIsPortfolioOpen] = useState(false);
 
   // Registration Form State
   const [regName, setRegName] = useState('');
@@ -179,34 +183,36 @@ export default function Home() {
             >
               Events
             </a>
-            <a
-              href="#team"
+            <button
+              type="button"
+              onClick={() => setIsGalleryOpen(true)}
               className="brutal-pill"
               style={{
                 backgroundColor: '#34D399',
                 color: '#000000',
                 padding: '7px 22px',
-                textDecoration: 'none',
                 fontSize: '14px',
                 fontWeight: 800,
+                cursor: 'pointer',
               }}
             >
               Gallery
-            </a>
-            <a
-              href="#events"
+            </button>
+            <button
+              type="button"
+              onClick={() => setIsPortfolioOpen(true)}
               className="brutal-pill"
               style={{
                 backgroundColor: '#818CF8',
                 color: '#000000',
                 padding: '7px 22px',
-                textDecoration: 'none',
                 fontSize: '14px',
                 fontWeight: 800,
+                cursor: 'pointer',
               }}
             >
               Portfolio
-            </a>
+            </button>
             <a
               href="#faqs"
               className="brutal-pill"
@@ -226,7 +232,7 @@ export default function Home() {
           {/* Right: Saptanshu Wanjari Profile */}
           <div style={{ position: 'relative' }}>
             <button
-              onClick={() => setIsProfileOpen(!isProfileOpen)}
+              onClick={() => setIsProfileOpen(true)}
               style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -263,48 +269,6 @@ export default function Home() {
                 <ChevronDown size={14} color="#666" />
               </span>
             </button>
-
-            {isProfileOpen && (
-              <div
-                className="brutal-box"
-                style={{
-                  position: 'absolute',
-                  top: '110%',
-                  right: 0,
-                  width: '230px',
-                  backgroundColor: '#ffffff',
-                  borderRadius: '8px',
-                  padding: '14px',
-                  zIndex: 100,
-                }}
-              >
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
-                  <div style={{ width: '36px', height: '36px', borderRadius: '50%', overflow: 'hidden', border: '1.5px solid #000' }}>
-                    <Image src="/avatar.png" alt="Avatar" width={36} height={36} />
-                  </div>
-                  <div>
-                    <p style={{ fontWeight: 800, fontSize: '13px', color: '#000' }}>Saptanshu Wanjari</p>
-                    <p style={{ fontSize: '11px', color: '#64748b' }}>GDG Organizer • RBU</p>
-                  </div>
-                </div>
-                <button
-                  onClick={() => setIsProfileOpen(false)}
-                  style={{
-                    width: '100%',
-                    padding: '5px',
-                    background: '#000',
-                    color: '#fff',
-                    border: 'none',
-                    borderRadius: '4px',
-                    fontSize: '11px',
-                    cursor: 'pointer',
-                    fontWeight: 700,
-                  }}
-                >
-                  Close
-                </button>
-              </div>
-            )}
           </div>
         </header>
 
@@ -376,6 +340,7 @@ export default function Home() {
               </a>
 
               <button
+                type="button"
                 onClick={() => setIsProfileOpen(true)}
                 className="brutal-box"
                 style={{
@@ -1172,7 +1137,438 @@ export default function Home() {
       </section>
 
       {/* ======================================================== */}
-      {/* MODAL: EVENT REGISTRATION */}
+      {/* MODAL 1: PROFILE MODAL (FIXED & FULLY FUNCTIONAL) */}
+      {/* ======================================================== */}
+      {isProfileOpen && (
+        <div
+          style={{
+            position: 'fixed',
+            inset: 0,
+            backgroundColor: 'rgba(0,0,0,0.65)',
+            backdropFilter: 'blur(4px)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 1000,
+            padding: '20px',
+          }}
+        >
+          <div
+            className="brutal-box"
+            style={{
+              width: '100%',
+              maxWidth: '460px',
+              backgroundColor: '#ffffff',
+              borderRadius: '16px',
+              padding: '32px',
+              position: 'relative',
+              boxShadow: '8px 8px 0px #000000',
+            }}
+          >
+            <button
+              onClick={() => setIsProfileOpen(false)}
+              style={{
+                position: 'absolute',
+                top: '18px',
+                right: '18px',
+                background: '#000',
+                color: '#fff',
+                border: 'none',
+                borderRadius: '50%',
+                width: '32px',
+                height: '32px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                cursor: 'pointer',
+              }}
+            >
+              <X size={18} />
+            </button>
+
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', gap: '14px' }}>
+              <div
+                style={{
+                  width: '80px',
+                  height: '80px',
+                  borderRadius: '50%',
+                  overflow: 'hidden',
+                  border: '3px solid #000',
+                  boxShadow: '4px 4px 0px #000',
+                }}
+              >
+                <Image src="/avatar.png" alt="Saptanshu Wanjari" width={80} height={80} />
+              </div>
+
+              <div>
+                <h3 className="font-pixel" style={{ fontSize: '20px', color: '#000000', marginBottom: '4px' }}>
+                  Saptanshu Wanjari
+                </h3>
+                <span
+                  style={{
+                    display: 'inline-block',
+                    backgroundColor: '#fbbf24',
+                    color: '#000',
+                    fontSize: '12px',
+                    fontWeight: 800,
+                    padding: '3px 12px',
+                    borderRadius: '999px',
+                    border: '1.5px solid #000',
+                  }}
+                >
+                  GDG Organizer • RBU
+                </span>
+              </div>
+
+              <p style={{ fontSize: '13.5px', lineHeight: 1.6, color: '#4b5563', margin: '8px 0 16px' }}>
+                Computer Science & Engineering student at Ramdeobaba University. Leading GDG On Campus initiatives, mentoring student developers, and organizing technical workshops.
+              </p>
+
+              <div
+                style={{
+                  width: '100%',
+                  backgroundColor: '#f1f5f9',
+                  padding: '12px',
+                  borderRadius: '10px',
+                  border: '1.5px solid #000',
+                  fontSize: '12px',
+                  textAlign: 'left',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '6px',
+                }}
+              >
+                <div><strong>University:</strong> Ramdeobaba University, Nagpur</div>
+                <div><strong>Contact:</strong> gdsc@rknec.edu</div>
+                <div><strong>Status:</strong> Active Chapter Lead 2026-27</div>
+              </div>
+
+              <button
+                onClick={() => setIsProfileOpen(false)}
+                className="brutal-box"
+                style={{
+                  width: '100%',
+                  backgroundColor: '#000',
+                  color: '#fff',
+                  padding: '12px',
+                  borderRadius: '8px',
+                  fontWeight: 800,
+                  fontSize: '14px',
+                  cursor: 'pointer',
+                  marginTop: '10px',
+                }}
+              >
+                Close Profile
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ======================================================== */}
+      {/* MODAL 2: GALLERY MODAL (NEW) */}
+      {/* ======================================================== */}
+      {isGalleryOpen && (
+        <div
+          style={{
+            position: 'fixed',
+            inset: 0,
+            backgroundColor: 'rgba(0,0,0,0.65)',
+            backdropFilter: 'blur(4px)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 1000,
+            padding: '20px',
+          }}
+        >
+          <div
+            className="brutal-box"
+            style={{
+              width: '100%',
+              maxWidth: '560px',
+              backgroundColor: '#ffffff',
+              borderRadius: '16px',
+              padding: '32px',
+              position: 'relative',
+              boxShadow: '8px 8px 0px #000000',
+            }}
+          >
+            <button
+              onClick={() => setIsGalleryOpen(false)}
+              style={{
+                position: 'absolute',
+                top: '18px',
+                right: '18px',
+                background: '#000',
+                color: '#fff',
+                border: 'none',
+                borderRadius: '50%',
+                width: '32px',
+                height: '32px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                cursor: 'pointer',
+              }}
+            >
+              <X size={18} />
+            </button>
+
+            <span
+              style={{
+                backgroundColor: '#34d399',
+                color: '#000',
+                fontSize: '11px',
+                fontWeight: 800,
+                padding: '4px 12px',
+                borderRadius: '999px',
+                border: '1.5px solid #000',
+              }}
+            >
+              COMMUNITY HIGHLIGHTS
+            </span>
+
+            <h3 className="font-pixel" style={{ fontSize: '22px', margin: '14px 0 10px', color: '#000' }}>
+              GDG RBU Gallery
+            </h3>
+            <p style={{ fontSize: '13.5px', color: '#4b5563', marginBottom: '20px' }}>
+              Snapshots of student workshops, annual hackathons, and Google Cloud study jams conducted at Ramdeobaba University.
+            </p>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '20px' }}>
+              <div style={{ padding: '12px', borderRadius: '8px', border: '1.5px solid #000', backgroundColor: '#e0f2fe' }}>
+                <h4 style={{ fontWeight: 800, fontSize: '14px' }}>⚡ Google Cloud Study Jam 2026</h4>
+                <p style={{ fontSize: '12px', color: '#334155' }}>Over 120 students earned certification badges in hands-on cloud labs.</p>
+              </div>
+              <div style={{ padding: '12px', borderRadius: '8px', border: '1.5px solid #000', backgroundColor: '#fef3c7' }}>
+                <h4 style={{ fontWeight: 800, fontSize: '14px' }}>🚀 CodeWave 36-Hour Hackathon</h4>
+                <p style={{ fontSize: '12px', color: '#334155' }}>Intensive product sprint solving real campus sustainability problems.</p>
+              </div>
+              <div style={{ padding: '12px', borderRadius: '8px', border: '1.5px solid #000', backgroundColor: '#f1f5f9' }}>
+                <h4 style={{ fontWeight: 800, fontSize: '14px' }}>🎤 Google Developer Experts Keynote</h4>
+                <p style={{ fontSize: '12px', color: '#334155' }}>Annual summit hosted at the university main auditorium.</p>
+              </div>
+            </div>
+
+            <button
+              onClick={() => setIsGalleryOpen(false)}
+              className="brutal-box"
+              style={{
+                width: '100%',
+                backgroundColor: '#000',
+                color: '#fff',
+                padding: '12px',
+                borderRadius: '8px',
+                fontWeight: 800,
+                cursor: 'pointer',
+              }}
+            >
+              Back to Page
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* ======================================================== */}
+      {/* MODAL 3: PORTFOLIO MODAL (NEW) */}
+      {/* ======================================================== */}
+      {isPortfolioOpen && (
+        <div
+          style={{
+            position: 'fixed',
+            inset: 0,
+            backgroundColor: 'rgba(0,0,0,0.65)',
+            backdropFilter: 'blur(4px)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 1000,
+            padding: '20px',
+          }}
+        >
+          <div
+            className="brutal-box"
+            style={{
+              width: '100%',
+              maxWidth: '560px',
+              backgroundColor: '#ffffff',
+              borderRadius: '16px',
+              padding: '32px',
+              position: 'relative',
+              boxShadow: '8px 8px 0px #000000',
+            }}
+          >
+            <button
+              onClick={() => setIsPortfolioOpen(false)}
+              style={{
+                position: 'absolute',
+                top: '18px',
+                right: '18px',
+                background: '#000',
+                color: '#fff',
+                border: 'none',
+                borderRadius: '50%',
+                width: '32px',
+                height: '32px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                cursor: 'pointer',
+              }}
+            >
+              <X size={18} />
+            </button>
+
+            <span
+              style={{
+                backgroundColor: '#818cf8',
+                color: '#fff',
+                fontSize: '11px',
+                fontWeight: 800,
+                padding: '4px 12px',
+                borderRadius: '999px',
+                border: '1.5px solid #000',
+              }}
+            >
+              STUDENT SHOWCASE
+            </span>
+
+            <h3 className="font-pixel" style={{ fontSize: '22px', margin: '14px 0 10px', color: '#000' }}>
+              GDG Student Portfolio
+            </h3>
+            <p style={{ fontSize: '13.5px', color: '#4b5563', marginBottom: '20px' }}>
+              Explore featured projects built by student developers at Ramdeobaba University.
+            </p>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '20px' }}>
+              <div style={{ padding: '14px', borderRadius: '8px', border: '1.5px solid #000', backgroundColor: '#f8fafc' }}>
+                <h4 style={{ fontWeight: 800, fontSize: '15px' }}>EcoFlow — Smart Campus Grid</h4>
+                <p style={{ fontSize: '12.5px', color: '#64748b', marginTop: '2px' }}>Tech: React, Next.js, IoT Sensors, Cloud Firestore</p>
+                <p style={{ fontSize: '12px', color: '#334155', marginTop: '4px' }}>Real-time water & energy conservation dashboard reducing campus waste by 18%.</p>
+              </div>
+              <div style={{ padding: '14px', borderRadius: '8px', border: '1.5px solid #000', backgroundColor: '#f8fafc' }}>
+                <h4 style={{ fontWeight: 800, fontSize: '15px' }}>Campus Wayfinder AI</h4>
+                <p style={{ fontSize: '12.5px', color: '#64748b', marginTop: '2px' }}>Tech: Google Maps API, FastAPI, TensorFlow</p>
+                <p style={{ fontSize: '12px', color: '#334155', marginTop: '4px' }}>Indoor campus navigation assistant guiding freshers to labs and lecture halls.</p>
+              </div>
+            </div>
+
+            <button
+              onClick={() => setIsPortfolioOpen(false)}
+              className="brutal-box"
+              style={{
+                width: '100%',
+                backgroundColor: '#000',
+                color: '#fff',
+                padding: '12px',
+                borderRadius: '8px',
+                fontWeight: 800,
+                cursor: 'pointer',
+              }}
+            >
+              Back to Page
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* ======================================================== */}
+      {/* MODAL 4: EVENT DETAILS */}
+      {/* ======================================================== */}
+      {isEventDetailOpen && (
+        <div
+          style={{
+            position: 'fixed',
+            inset: 0,
+            backgroundColor: 'rgba(0,0,0,0.65)',
+            backdropFilter: 'blur(4px)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 1000,
+            padding: '20px',
+          }}
+        >
+          <div
+            className="brutal-box"
+            style={{
+              width: '100%',
+              maxWidth: '500px',
+              backgroundColor: '#ffffff',
+              borderRadius: '16px',
+              padding: '32px',
+              position: 'relative',
+              boxShadow: '8px 8px 0px #000000',
+            }}
+          >
+            <button
+              onClick={() => setIsEventDetailOpen(false)}
+              style={{
+                position: 'absolute',
+                top: '18px',
+                right: '18px',
+                background: '#000',
+                color: '#fff',
+                border: 'none',
+                borderRadius: '50%',
+                width: '32px',
+                height: '32px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                cursor: 'pointer',
+              }}
+            >
+              <X size={18} />
+            </button>
+
+            <span
+              style={{
+                backgroundColor: '#3b82f6',
+                color: '#fff',
+                fontSize: '11px',
+                fontWeight: 800,
+                padding: '4px 12px',
+                borderRadius: '999px',
+                border: '1.5px solid #000',
+              }}
+            >
+              EVENT DETAILS
+            </span>
+
+            <h3 className="font-pixel" style={{ fontSize: '22px', margin: '14px 0 10px', color: '#000' }}>
+              GDG ORIENTATION 2026
+            </h3>
+
+            <p style={{ fontSize: '13.5px', lineHeight: 1.6, color: '#4b5563', marginBottom: '20px' }}>
+              Join us for the most awaited campus technical orientation! Discover upcoming hands-on workshops in Web Development, Android, AI/ML, and Google Cloud. Network with mentors and win exclusive Google Developer swag!
+            </p>
+
+            <button
+              onClick={() => {
+                setIsEventDetailOpen(false);
+                setIsRegisterOpen(true);
+              }}
+              className="brutal-box"
+              style={{
+                width: '100%',
+                backgroundColor: '#fbbf24',
+                color: '#000',
+                padding: '12px',
+                borderRadius: '8px',
+                fontWeight: 800,
+                cursor: 'pointer',
+              }}
+            >
+              Proceed to Register
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* ======================================================== */}
+      {/* MODAL 5: EVENT REGISTRATION */}
       {/* ======================================================== */}
       {isRegisterOpen && (
         <div
@@ -1197,6 +1593,7 @@ export default function Home() {
               borderRadius: '16px',
               padding: '32px',
               position: 'relative',
+              boxShadow: '8px 8px 0px #000000',
             }}
           >
             <button

@@ -1,4 +1,12 @@
 import './globals.css';
+import { Plus_Jakarta_Sans } from 'next/font/google';
+
+const plusJakartaSans = Plus_Jakarta_Sans({
+  weight: ['400', '500', '600', '700', '800'],
+  subsets: ['latin'],
+  variable: '--font-sans',
+  display: 'swap',
+});
 
 export const metadata = {
   title: 'Google Developer Groups, RBU | GDG On Campus Ramdeobaba University',
@@ -17,12 +25,16 @@ export const viewport = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="en" className={plusJakartaSans.variable}>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet"
+        />
       </head>
-      <body>{children}</body>
+      <body className={plusJakartaSans.className}>{children}</body>
     </html>
   );
 }
