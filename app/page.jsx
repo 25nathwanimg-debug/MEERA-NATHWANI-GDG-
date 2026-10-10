@@ -78,6 +78,7 @@ export default function Home() {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isAiOpen, setIsAiOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [teamTab, setTeamTab] = useState('leaders'); // 'leaders' | 'domains'
 
   // Registration Form State
   const [regName, setRegName] = useState('');
@@ -1081,46 +1082,126 @@ export default function Home() {
               sessions.
             </p>
 
-            {/* Feature 1 */}
-            <div style={{ display: 'flex', gap: '14px', alignItems: 'flex-start' }}>
-              <CheckCircle2 size={22} color="#059669" style={{ flexShrink: 0, marginTop: '2px' }} />
-              <div>
-                <h4
-                  style={{
-                    fontSize: '15px',
-                    fontWeight: 800,
-                    color: 'var(--text-main)',
-                    marginBottom: '4px',
-                  }}
-                >
-                  Passionate Community Leaders
-                </h4>
-                <p style={{ fontSize: '13px', lineHeight: 1.5, color: 'var(--text-muted)' }}>
-                  Our organizers build an inclusive environment where developers can connect, share knowledge, and grow
-                  together.
-                </p>
-              </div>
+            {/* Two Tabs inside the card */}
+            <div style={{ display: 'flex', gap: '10px' }}>
+              <button
+                type="button"
+                onClick={() => setTeamTab('leaders')}
+                className="brutal-pill"
+                style={{
+                  backgroundColor: teamTab === 'leaders' ? '#fbbf24' : 'var(--card-bg)',
+                  color: '#000000',
+                  padding: '7px 18px',
+                  fontSize: '13px',
+                  cursor: 'pointer',
+                  border: '2px solid #000',
+                }}
+              >
+                Community Leaders
+              </button>
+              <button
+                type="button"
+                onClick={() => setTeamTab('domains')}
+                className="brutal-pill"
+                style={{
+                  backgroundColor: teamTab === 'domains' ? '#3b82f6' : 'var(--card-bg)',
+                  color: teamTab === 'domains' ? '#ffffff' : '#000000',
+                  padding: '7px 18px',
+                  fontSize: '13px',
+                  cursor: 'pointer',
+                  border: '2px solid #000',
+                }}
+              >
+                Tech Domains
+              </button>
             </div>
 
-            {/* Feature 2 */}
-            <div style={{ display: 'flex', gap: '14px', alignItems: 'flex-start' }}>
-              <CheckCircle2 size={22} color="#059669" style={{ flexShrink: 0, marginTop: '2px' }} />
-              <div>
-                <h4
-                  style={{
-                    fontSize: '15px',
-                    fontWeight: 800,
-                    color: 'var(--text-main)',
-                    marginBottom: '4px',
-                  }}
-                >
-                  Empowering Developers
-                </h4>
-                <p style={{ fontSize: '13px', lineHeight: 1.5, color: 'var(--text-muted)' }}>
-                  We host meetups and codelabs to help developers stay current with modern tools and best practices.
-                </p>
-              </div>
-            </div>
+            {teamTab === 'leaders' ? (
+              <>
+                {/* Feature 1 */}
+                <div style={{ display: 'flex', gap: '14px', alignItems: 'flex-start' }}>
+                  <CheckCircle2 size={22} color="#059669" style={{ flexShrink: 0, marginTop: '2px' }} />
+                  <div>
+                    <h4
+                      style={{
+                        fontSize: '15px',
+                        fontWeight: 800,
+                        color: 'var(--text-main)',
+                        marginBottom: '4px',
+                      }}
+                    >
+                      Passionate Community Leaders
+                    </h4>
+                    <p style={{ fontSize: '13px', lineHeight: 1.5, color: 'var(--text-muted)' }}>
+                      Our organizers build an inclusive environment where developers can connect, share knowledge, and grow
+                      together.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Feature 2 */}
+                <div style={{ display: 'flex', gap: '14px', alignItems: 'flex-start' }}>
+                  <CheckCircle2 size={22} color="#059669" style={{ flexShrink: 0, marginTop: '2px' }} />
+                  <div>
+                    <h4
+                      style={{
+                        fontSize: '15px',
+                        fontWeight: 800,
+                        color: 'var(--text-main)',
+                        marginBottom: '4px',
+                      }}
+                    >
+                      Empowering Developers
+                    </h4>
+                    <p style={{ fontSize: '13px', lineHeight: 1.5, color: 'var(--text-muted)' }}>
+                      We host meetups and codelabs to help developers stay current with modern tools and best practices.
+                    </p>
+                  </div>
+                </div>
+              </>
+            ) : (
+              <>
+                {/* Domain Feature 1 */}
+                <div style={{ display: 'flex', gap: '14px', alignItems: 'flex-start' }}>
+                  <CheckCircle2 size={22} color="#3b82f6" style={{ flexShrink: 0, marginTop: '2px' }} />
+                  <div>
+                    <h4
+                      style={{
+                        fontSize: '15px',
+                        fontWeight: 800,
+                        color: 'var(--text-main)',
+                        marginBottom: '4px',
+                      }}
+                    >
+                      Web & Cloud Engineering
+                    </h4>
+                    <p style={{ fontSize: '13px', lineHeight: 1.5, color: 'var(--text-muted)' }}>
+                      Hands-on workshops covering React, Next.js, modern web performance, and Google Cloud study jams with certified mentors.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Domain Feature 2 */}
+                <div style={{ display: 'flex', gap: '14px', alignItems: 'flex-start' }}>
+                  <CheckCircle2 size={22} color="#3b82f6" style={{ flexShrink: 0, marginTop: '2px' }} />
+                  <div>
+                    <h4
+                      style={{
+                        fontSize: '15px',
+                        fontWeight: 800,
+                        color: 'var(--text-main)',
+                        marginBottom: '4px',
+                      }}
+                    >
+                      AI / Machine Learning & Android
+                    </h4>
+                    <p style={{ fontSize: '13px', lineHeight: 1.5, color: 'var(--text-muted)' }}>
+                      Project sprints exploring TensorFlow, Gemini APIs, Kotlin, and agentic workflows for real campus problem statements.
+                    </p>
+                  </div>
+                </div>
+              </>
+            )}
           </div>
 
           {/* Right Column: Actual Team Photo */}
