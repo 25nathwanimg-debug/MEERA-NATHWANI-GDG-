@@ -325,8 +325,9 @@ export default function Home() {
             <h1
               className="font-pixel"
               style={{
-                fontSize: 'clamp(2.5rem, 5vw, 4.4rem)',
-                lineHeight: 1.15,
+                fontFamily: "'Silkscreen', cursive, monospace, sans-serif",
+                fontSize: 'clamp(2.1rem, 4.2vw, 3.8rem)',
+                lineHeight: 1.2,
                 color: 'var(--text-main, #000000)',
                 textTransform: 'uppercase',
                 letterSpacing: '-0.02em',
@@ -338,12 +339,15 @@ export default function Home() {
             </h1>
 
             <p
+              className="font-mono"
               style={{
-                fontSize: 'clamp(1.1rem, 2vw, 1.4rem)',
-                lineHeight: 1.7,
+                fontFamily: "'Space Mono', monospace, sans-serif",
+                fontSize: 'clamp(1rem, 1.5vw, 1.22rem)',
+                lineHeight: 1.65,
                 color: 'var(--text-muted, #4b5563)',
-                maxWidth: '540px',
+                maxWidth: '490px',
                 fontWeight: 400,
+                letterSpacing: '-0.01em',
               }}
             >
               Empowering students with cutting-edge tech skills, community, and resources for a future in technology
@@ -401,7 +405,7 @@ export default function Home() {
                   color: '#ffffff',
                   padding: '6px 14px',
                   fontSize: '12px',
-                  fontFamily: 'monospace',
+                  fontFamily: "'Space Mono', monospace",
                   fontWeight: 800,
                   letterSpacing: '0.05em',
                   transform: 'rotate(-3deg)',
@@ -488,7 +492,7 @@ export default function Home() {
                       width: '100%',
                       fontSize: '15px',
                       color: '#000000',
-                      fontFamily: 'monospace',
+                      fontFamily: "'Space Mono', monospace",
                     }}
                   />
                 </div>

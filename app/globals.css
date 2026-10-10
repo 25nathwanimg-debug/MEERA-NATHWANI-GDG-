@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Press+Start+2P&family=Silkscreen:wght@400;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap');
 
 :root {
   --bg-page: #ffffff;
@@ -61,9 +61,17 @@ html, body {
   transition: background-color 0.25s ease, color 0.25s ease;
 }
 
-/* Heading font matching original clean bold style */
-.font-pixel, h1, h2, h3, h4 {
-  font-family: var(--font-sans), 'Plus Jakarta Sans', sans-serif;
+/* Pixel Heading font matching exact retro style from Figma screenshot */
+.font-pixel {
+  font-family: 'Silkscreen', cursive, monospace, sans-serif !important;
+  letter-spacing: -0.01em;
+}
+
+.font-mono {
+  font-family: 'Space Mono', monospace, sans-serif !important;
+}
+
+h1, h2, h3, h4 {
   letter-spacing: -0.02em;
 }
 
