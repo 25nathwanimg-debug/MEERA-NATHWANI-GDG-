@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import confetti from 'canvas-confetti';
 import {
@@ -11,18 +11,10 @@ import {
   Mail,
   ArrowUpRight,
   CheckCircle2,
-  Moon,
-  Sun,
-  Sparkles,
   X,
-  Send,
-  Ticket,
-  Calendar,
-  Clock,
-  Menu
+  Ticket
 } from 'lucide-react';
 
-// FAQ Data
 const FAQ_ITEMS = [
   {
     id: 1,
@@ -34,7 +26,7 @@ const FAQ_ITEMS = [
     id: 2,
     question: 'How to join GDG?',
     answer:
-      'Students of Ramdeobaba University can join through our annual recruitment drive! Fill out the domain application, complete the domain challenge (like this frontend task!), and join our orientation to get started.',
+      'Students of Ramdeobaba University can join through our annual recruitment drive! Fill out the domain application form, complete the challenge, and attend our orientation.',
   },
   {
     id: 3,
@@ -52,33 +44,16 @@ const FAQ_ITEMS = [
     id: 5,
     question: 'How to reach us?',
     answer:
-      'You can email us directly at gdsc@rknec.edu or reach out via our official Instagram, LinkedIn, or Twitter handles. You can also visit our tech lab at Ramdeobaba University!',
+      'You can email us directly at gdsc@rknec.edu or connect via our official Instagram, LinkedIn, or X handles. You can also visit our campus in Nagpur!',
   },
 ];
 
-// Searchable directory items
-const SEARCHABLE_ITEMS = [
-  { title: 'GDG Orientation 2026', type: 'Event', link: '#events' },
-  { title: 'Frontend Developer Recruitment', type: 'Recruitment', link: '#team' },
-  { title: 'Web Development Domain', type: 'Domain', link: '#team' },
-  { title: 'AI & Machine Learning Track', type: 'Domain', link: '#events' },
-  { title: 'Cloud & DevOps Workshop', type: 'Workshop', link: '#events' },
-  { title: 'Saptanshu Wanjari (Organizer)', type: 'Team', link: '#team' },
-  { title: 'Campus Location & Contact', type: 'Contact', link: '#contact' },
-  { title: 'Frequently Asked Questions', type: 'Help', link: '#faqs' },
-];
-
 export default function Home() {
-  const [theme, setTheme] = useState('light');
-  const [activeFaq, setActiveFaq] = useState(1); // Item 1 open by default
+  const [activeFaq, setActiveFaq] = useState(1);
   const [searchQuery, setSearchQuery] = useState('');
-  const [searchFocused, setSearchFocused] = useState(false);
   const [isRegisterOpen, setIsRegisterOpen] = useState(false);
   const [isEventDetailOpen, setIsEventDetailOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
-  const [isAiOpen, setIsAiOpen] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [teamTab, setTeamTab] = useState('leaders'); // 'leaders' | 'domains'
 
   // Registration Form State
   const [regName, setRegName] = useState('');
@@ -86,41 +61,6 @@ export default function Home() {
   const [regBranch, setRegBranch] = useState('Computer Science & Engineering');
   const [regRegistered, setRegRegistered] = useState(false);
 
-  // AI Chat State
-  const [messages, setMessages] = useState([
-    {
-      sender: 'bot',
-      text: 'Hi there! 👋 I am the GDG RBU AI Assistant. How can I help you today? Ask about recruitment, upcoming events, or Google tech domains!',
-    },
-  ]);
-  const [inputMsg, setInputMsg] = useState('');
-
-  // Handle Theme
-  useEffect(() => {
-    const savedTheme = localStorage.getItem('gdg-theme');
-    if (savedTheme) {
-      setTheme(savedTheme);
-      document.documentElement.setAttribute('data-theme', savedTheme);
-    }
-  }, []);
-
-  const toggleTheme = () => {
-    const nextTheme = theme === 'light' ? 'dark' : 'light';
-    setTheme(nextTheme);
-    localStorage.setItem('gdg-theme', nextTheme);
-    document.documentElement.setAttribute('data-theme', nextTheme);
-  };
-
-  // Filtered search items
-  const filteredSearch = useMemo(() => {
-    if (!searchQuery.trim()) return [];
-    return SEARCHABLE_ITEMS.filter((item) =>
-      item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      item.type.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-  }, [searchQuery]);
-
-  // Confetti on Registration
   const triggerConfetti = () => {
     confetti({
       particleCount: 100,
@@ -137,53 +77,25 @@ export default function Home() {
     triggerConfetti();
   };
 
-  // AI Bot responses
-  const handleSendMessage = () => {
-    if (!inputMsg.trim()) return;
-    const userText = inputMsg.trim();
-    const newMsgs = [...messages, { sender: 'user', text: userText }];
-    setMessages(newMsgs);
-    setInputMsg('');
-
-    setTimeout(() => {
-      let botReply = "That's a fantastic question! GDG RBU brings students together through coding bootcamps, Google Cloud study jams, and hackathons. Connect with us on social media or attend our orientation!";
-      const lower = userText.toLowerCase();
-
-      if (lower.includes('event') || lower.includes('orientation')) {
-        botReply = "Our next flagship event is the 'GDG ORIENTATION' on Oct 7, 2026 at 3:00 PM! You can click 'Register Now' on the ticket card to grab your pass!";
-      } else if (lower.includes('recruit') || lower.includes('frontend') || lower.includes('join')) {
-        botReply = "The Recruitment Drive 2026-27 is actively underway for positions in Frontend, Backend, AI/ML, Cloud, and Design. Build your solution, upload to GitHub, and deploy on Vercel!";
-      } else if (lower.includes('google') || lower.includes('benefit')) {
-        botReply = "GDG on Campus provides direct access to Google technologies, mentorship from Google Developer Experts (GDEs), Google Cloud credits, and networking with global student leaders.";
-      } else if (lower.includes('contact') || lower.includes('email') || lower.includes('reach')) {
-        botReply = "You can write to us anytime at gdsc@rknec.edu or find us at Ramdeo Tekdi, Gittikhadan, Katol Road, Nagpur-440013.";
-      }
-
-      setMessages((prev) => [...prev, { sender: 'bot', text: botReply }]);
-    }, 600);
-  };
-
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       {/* ======================================================== */}
-      {/* 1. TOP NAVBAR & HEADER */}
+      {/* 1. TOP NAVBAR (EXACT REPLICA OF IMAGE 1) */}
       {/* ======================================================== */}
       <header
         style={{
           width: '100%',
-          maxWidth: '1240px',
+          maxWidth: '1280px',
           margin: '0 auto',
-          padding: '24px 20px 16px',
+          padding: '28px 24px 20px',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          gap: '16px',
         }}
       >
-        {/* Left: GDG Logo (Four Google-colored angled brackets) */}
-        <a href="#home" style={{ display: 'flex', alignItems: 'center', gap: '8px', textDecoration: 'none' }}>
-          <svg width="48" height="28" viewBox="0 0 64 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-            {/* Left Brackets: Blue & Red */}
+        {/* Left: GDG Official Bracket Logo */}
+        <a href="#home" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
+          <svg width="54" height="32" viewBox="0 0 64 36" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
               d="M18.8 3.5C20.4 5.1 20.4 7.7 18.8 9.3L10.6 17.5L18.8 25.7C20.4 27.3 20.4 29.9 18.8 31.5C17.2 33.1 14.6 33.1 13 31.5L2.4 20.9C0.8 19.3 0.8 16.7 2.4 15.1L13 4.5C14.6 2.9 17.2 2.9 18.8 3.5Z"
               fill="#4285F4"
@@ -192,7 +104,6 @@ export default function Home() {
               d="M18.8 3.5C20.4 5.1 20.4 7.7 18.8 9.3L13.8 14.3C12.2 12.7 12.2 10.1 13.8 8.5L14.7 7.6C15.9 6.4 17.2 4.9 18.8 3.5Z"
               fill="#EA4335"
             />
-            {/* Right Brackets: Green & Yellow */}
             <path
               d="M45.2 32.5C43.6 30.9 43.6 28.3 45.2 26.7L53.4 18.5L45.2 10.3C43.6 8.7 43.6 6.1 45.2 4.5C46.8 2.9 49.4 2.9 51 4.5L61.6 15.1C63.2 16.7 63.2 19.3 61.6 20.9L51 31.5C49.4 33.1 46.8 33.1 45.2 32.5Z"
               fill="#FBBC04"
@@ -204,24 +115,26 @@ export default function Home() {
           </svg>
         </a>
 
-        {/* Center: Neo-Brutalist Navigation Buttons */}
+        {/* Center: The 6 Neo-Brutalist Colored Buttons */}
         <nav
-          className="desktop-nav"
           style={{
             display: 'flex',
             alignItems: 'center',
-            gap: '12px',
+            gap: '14px',
+            flexWrap: 'wrap',
+            justifyContent: 'center',
           }}
         >
           <a
             href="#home"
             className="brutal-pill"
             style={{
-              backgroundColor: '#3b82f6',
+              backgroundColor: '#4285F4',
               color: '#000000',
-              padding: '8px 20px',
+              padding: '7px 22px',
               textDecoration: 'none',
-              fontSize: '15px',
+              fontSize: '14px',
+              fontWeight: 800,
             }}
           >
             Home
@@ -230,11 +143,12 @@ export default function Home() {
             href="#team"
             className="brutal-pill"
             style={{
-              backgroundColor: '#f87171',
+              backgroundColor: '#F87171',
               color: '#000000',
-              padding: '8px 20px',
+              padding: '7px 22px',
               textDecoration: 'none',
-              fontSize: '15px',
+              fontSize: '14px',
+              fontWeight: 800,
             }}
           >
             Team
@@ -243,11 +157,12 @@ export default function Home() {
             href="#events"
             className="brutal-pill"
             style={{
-              backgroundColor: '#fbbf24',
+              backgroundColor: '#FBBF24',
               color: '#000000',
-              padding: '8px 20px',
+              padding: '7px 22px',
               textDecoration: 'none',
-              fontSize: '15px',
+              fontSize: '14px',
+              fontWeight: 800,
             }}
           >
             Events
@@ -256,11 +171,12 @@ export default function Home() {
             href="#gallery"
             className="brutal-pill"
             style={{
-              backgroundColor: '#34d399',
+              backgroundColor: '#34D399',
               color: '#000000',
-              padding: '8px 20px',
+              padding: '7px 22px',
               textDecoration: 'none',
-              fontSize: '15px',
+              fontSize: '14px',
+              fontWeight: 800,
             }}
           >
             Gallery
@@ -269,11 +185,12 @@ export default function Home() {
             href="#portfolio"
             className="brutal-pill"
             style={{
-              backgroundColor: '#818cf8',
+              backgroundColor: '#818CF8',
               color: '#000000',
-              padding: '8px 20px',
+              padding: '7px 22px',
               textDecoration: 'none',
-              fontSize: '15px',
+              fontSize: '14px',
+              fontWeight: 800,
             }}
           >
             Portfolio
@@ -282,222 +199,105 @@ export default function Home() {
             href="#faqs"
             className="brutal-pill"
             style={{
-              backgroundColor: '#60a5fa',
+              backgroundColor: '#60A5FA',
               color: '#000000',
-              padding: '8px 20px',
+              padding: '7px 22px',
               textDecoration: 'none',
-              fontSize: '15px',
+              fontSize: '14px',
+              fontWeight: 800,
             }}
           >
             More
           </a>
         </nav>
 
-        {/* Right: User Profile & Utility Buttons */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-          {/* AI Helper Trigger Button */}
+        {/* Right: Saptanshu Wanjari Profile */}
+        <div style={{ position: 'relative' }}>
           <button
-            onClick={() => setIsAiOpen(true)}
-            className="brutal-pill"
-            title="Ask GDG AI"
+            onClick={() => setIsProfileOpen(!isProfileOpen)}
             style={{
-              background: '#fef08a',
-              color: '#000',
-              padding: '6px 12px',
               display: 'flex',
               alignItems: 'center',
-              gap: '6px',
+              gap: '8px',
+              background: 'transparent',
+              border: 'none',
               cursor: 'pointer',
-              fontSize: '13px',
+              padding: '4px',
             }}
           >
-            <Sparkles size={16} color="#d97706" />
-            <span style={{ fontWeight: 800 }}>Ask AI</span>
-          </button>
-
-          {/* Theme Switcher Button */}
-          <button
-            onClick={toggleTheme}
-            className="brutal-pill"
-            title="Toggle Dark / Light Mode"
-            style={{
-              background: theme === 'dark' ? '#334155' : '#ffffff',
-              color: theme === 'dark' ? '#f8fafc' : '#000000',
-              padding: '7px 11px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              cursor: 'pointer',
-            }}
-          >
-            {theme === 'dark' ? <Sun size={17} color="#fbbf24" /> : <Moon size={17} color="#475569" />}
-          </button>
-
-          {/* User Profile Pill */}
-          <div style={{ position: 'relative' }}>
-            <button
-              onClick={() => setIsProfileOpen(!isProfileOpen)}
+            <div
               style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px',
-                background: 'transparent',
-                border: 'none',
-                cursor: 'pointer',
-                padding: '4px',
+                width: '32px',
+                height: '32px',
+                borderRadius: '50%',
+                overflow: 'hidden',
+                border: '1.5px solid #000',
+                position: 'relative',
               }}
             >
-              <div
-                style={{
-                  width: '32px',
-                  height: '32px',
-                  borderRadius: '50%',
-                  overflow: 'hidden',
-                  border: '1.5px solid #000',
-                  position: 'relative',
-                  backgroundColor: '#e2e8f0',
-                }}
-              >
-                <Image
-                  src="/avatar.png"
-                  alt="Saptanshu Wanjari"
-                  width={32}
-                  height={32}
-                  style={{ objectFit: 'cover' }}
-                />
-              </div>
-              <span
-                style={{
-                  fontSize: '14px',
-                  fontWeight: 600,
-                  color: 'var(--text-main)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '4px',
-                }}
-              >
-                Saptanshu Wanjari
-                <ChevronDown size={14} />
-              </span>
-            </button>
-
-            {/* Profile Dropdown */}
-            {isProfileOpen && (
-              <div
-                className="brutal-box"
-                style={{
-                  position: 'absolute',
-                  top: '110%',
-                  right: 0,
-                  width: '240px',
-                  backgroundColor: 'var(--card-bg)',
-                  borderRadius: '12px',
-                  padding: '16px',
-                  zIndex: 100,
-                }}
-              >
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '12px' }}>
-                  <div
-                    style={{
-                      width: '40px',
-                      height: '40px',
-                      borderRadius: '50%',
-                      overflow: 'hidden',
-                      border: '2px solid #000',
-                    }}
-                  >
-                    <Image src="/avatar.png" alt="Avatar" width={40} height={40} />
-                  </div>
-                  <div>
-                    <p style={{ fontWeight: 800, fontSize: '14px', color: 'var(--text-main)' }}>Saptanshu Wanjari</p>
-                    <p style={{ fontSize: '12px', color: '#64748b' }}>GDG Organizer • RBU</p>
-                  </div>
-                </div>
-                <div
-                  style={{
-                    backgroundColor: '#e0f2fe',
-                    border: '1.5px solid #000',
-                    borderRadius: '8px',
-                    padding: '8px',
-                    fontSize: '12px',
-                    color: '#0369a1',
-                    marginBottom: '10px',
-                    fontWeight: 600,
-                  }}
-                >
-                  Status: Active Lead
-                </div>
-                <button
-                  onClick={() => setIsProfileOpen(false)}
-                  style={{
-                    width: '100%',
-                    padding: '6px',
-                    background: '#000',
-                    color: '#fff',
-                    border: 'none',
-                    borderRadius: '6px',
-                    fontSize: '12px',
-                    cursor: 'pointer',
-                    fontWeight: 700,
-                  }}
-                >
-                  Close
-                </button>
-              </div>
-            )}
-          </div>
-
-          {/* Mobile menu button */}
-          <button
-            className="mobile-menu-btn"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            style={{
-              display: 'none',
-              background: '#fff',
-              border: '2px solid #000',
-              padding: '6px',
-              borderRadius: '8px',
-              cursor: 'pointer',
-            }}
-          >
-            <Menu size={20} />
+              <Image src="/avatar.png" alt="Saptanshu Wanjari" width={32} height={32} />
+            </div>
+            <span
+              style={{
+                fontSize: '13px',
+                fontWeight: 600,
+                color: '#000000',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '4px',
+              }}
+            >
+              Saptanshu Wanjari
+              <ChevronDown size={14} color="#666" />
+            </span>
           </button>
+
+          {isProfileOpen && (
+            <div
+              className="brutal-box"
+              style={{
+                position: 'absolute',
+                top: '110%',
+                right: 0,
+                width: '230px',
+                backgroundColor: '#ffffff',
+                borderRadius: '8px',
+                padding: '14px',
+                zIndex: 100,
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
+                <div style={{ width: '36px', height: '36px', borderRadius: '50%', overflow: 'hidden', border: '1.5px solid #000' }}>
+                  <Image src="/avatar.png" alt="Avatar" width={36} height={36} />
+                </div>
+                <div>
+                  <p style={{ fontWeight: 800, fontSize: '13px', color: '#000' }}>Saptanshu Wanjari</p>
+                  <p style={{ fontSize: '11px', color: '#64748b' }}>GDG Organizer • RBU</p>
+                </div>
+              </div>
+              <button
+                onClick={() => setIsProfileOpen(false)}
+                style={{
+                  width: '100%',
+                  padding: '5px',
+                  background: '#000',
+                  color: '#fff',
+                  border: 'none',
+                  borderRadius: '4px',
+                  fontSize: '11px',
+                  cursor: 'pointer',
+                  fontWeight: 700,
+                }}
+              >
+                Close
+              </button>
+            </div>
+          )}
         </div>
       </header>
 
-      {/* Mobile Menu Dropdown */}
-      {mobileMenuOpen && (
-        <div
-          style={{
-            padding: '16px',
-            backgroundColor: 'var(--card-bg)',
-            borderBottom: '2.5px solid #000',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '10px',
-          }}
-        >
-          {['Home', 'Team', 'Events', 'Gallery', 'Portfolio', 'FAQs'].map((item) => (
-            <a
-              key={item}
-              href={`#${item.toLowerCase()}`}
-              onClick={() => setMobileMenuOpen(false)}
-              style={{
-                textDecoration: 'none',
-                color: 'var(--text-main)',
-                fontWeight: 700,
-                fontSize: '16px',
-                padding: '8px 0',
-              }}
-            >
-              {item}
-            </a>
-          ))}
-        </div>
-      )}
-
       {/* ======================================================== */}
-      {/* 2. PAGE 1: HERO SECTION */}
+      {/* 2. PAGE 1: HERO SECTION (EXACT REPLICA OF IMAGE 1) */}
       {/* ======================================================== */}
       <section
         id="home"
@@ -505,7 +305,7 @@ export default function Home() {
           width: '100%',
           maxWidth: '1240px',
           margin: '0 auto',
-          padding: '60px 24px 80px',
+          padding: '60px 24px 90px',
           display: 'grid',
           gridTemplateColumns: '1.1fr 0.9fr',
           alignItems: 'center',
@@ -518,10 +318,11 @@ export default function Home() {
           <h1
             className="font-pixel"
             style={{
-              fontSize: 'clamp(2.5rem, 5vw, 4.4rem)',
+              fontSize: 'clamp(2.5rem, 4.8vw, 4.2rem)',
               lineHeight: 1.15,
-              color: 'var(--text-main)',
+              color: '#000000',
               textTransform: 'uppercase',
+              letterSpacing: '-0.02em',
             }}
           >
             GOOGLE DEVELOPER
@@ -532,35 +333,33 @@ export default function Home() {
           <p
             style={{
               fontSize: 'clamp(1.1rem, 2vw, 1.4rem)',
-              lineHeight: 1.6,
-              color: 'var(--text-muted)',
-              maxWidth: '560px',
+              lineHeight: 1.7,
+              color: '#262626',
+              maxWidth: '520px',
+              fontWeight: 400,
             }}
           >
             Empowering students with cutting-edge tech skills, community, and resources for a future in technology
           </p>
 
-          {/* Action Buttons */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
+          {/* Action Buttons: LEARN MORE & PROFILE */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '18px', flexWrap: 'wrap' }}>
             <a
               href="#contact"
               onClick={(e) => {
                 e.preventDefault();
                 const el = document.getElementById('contact');
-                if (el) {
-                  el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
+                if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
               }}
               className="brutal-box"
               style={{
-                backgroundColor: 'var(--card-bg)',
-                color: 'var(--text-main)',
+                backgroundColor: '#ffffff',
+                color: '#000000',
                 padding: '14px 28px',
                 fontWeight: 800,
                 fontSize: '15px',
                 textDecoration: 'none',
-                letterSpacing: '0.05em',
-                borderRadius: '8px',
+                borderRadius: '0px',
                 display: 'inline-block',
                 cursor: 'pointer',
               }}
@@ -572,13 +371,12 @@ export default function Home() {
               onClick={() => setIsProfileOpen(true)}
               className="brutal-box"
               style={{
-                backgroundColor: 'var(--card-bg)',
-                color: 'var(--text-main)',
+                backgroundColor: '#ffffff',
+                color: '#000000',
                 padding: '14px 28px',
                 fontWeight: 800,
                 fontSize: '15px',
-                letterSpacing: '0.05em',
-                borderRadius: '8px',
+                borderRadius: '0px',
                 cursor: 'pointer',
               }}
             >
@@ -586,19 +384,19 @@ export default function Home() {
             </button>
           </div>
 
-          {/* Neo Badge: GDG • RBU */}
+          {/* Badge: GDG • RBU with rotation */}
           <div>
             <span
               style={{
                 display: 'inline-block',
-                backgroundColor: 'var(--tag-bg)',
-                color: 'var(--tag-text)',
+                backgroundColor: '#000000',
+                color: '#ffffff',
                 padding: '6px 14px',
-                fontSize: '13px',
-                fontFamily: 'Silkscreen, monospace',
-                fontWeight: 700,
-                borderRadius: '4px',
+                fontSize: '12px',
+                fontFamily: 'monospace',
+                fontWeight: 800,
                 letterSpacing: '0.05em',
+                transform: 'rotate(-3deg)',
                 boxShadow: '3px 3px 0px rgba(0,0,0,0.2)',
               }}
             >
@@ -607,23 +405,23 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Right Hero Column: Retro Black Stepped Folder with Search Bar */}
+        {/* Right Hero Column: Stepped Black Folder with Search Pill */}
         <div style={{ display: 'flex', justifyContent: 'center', position: 'relative' }}>
           <div
             style={{
               position: 'relative',
               width: '100%',
-              maxWidth: '460px',
-              minHeight: '320px',
+              maxWidth: '470px',
+              minHeight: '330px',
             }}
           >
-            {/* Custom Stepped Folder SVG Shape */}
+            {/* SVG Stepped Folder matching Figma shape */}
             <svg
               viewBox="0 0 500 340"
               style={{
                 width: '100%',
                 height: 'auto',
-                filter: 'drop-shadow(6px 6px 0px rgba(0,0,0,0.25))',
+                filter: 'drop-shadow(6px 6px 0px rgba(0,0,0,0.15))',
               }}
             >
               <path
@@ -644,11 +442,11 @@ export default function Home() {
                    L 270 70 
                    C 270 92 252 110 230 110 
                    Z"
-                fill="var(--folder-bg)"
+                fill="#000000"
               />
             </svg>
 
-            {/* Centered Search Pill inside Folder */}
+            {/* Centered Capsule Input inside Folder */}
             <div
               style={{
                 position: 'absolute',
@@ -656,106 +454,37 @@ export default function Home() {
                 left: '46%',
                 transform: 'translate(-50%, -50%)',
                 width: '74%',
-                maxWidth: '320px',
+                maxWidth: '310px',
               }}
             >
               <div
                 style={{
-                  position: 'relative',
-                  width: '100%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '10px',
+                  backgroundColor: '#ffffff',
+                  borderRadius: '999px',
+                  padding: '9px 18px',
+                  border: '1px solid rgba(0,0,0,0.15)',
+                  boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
                 }}
               >
-                <div
+                <Search size={16} color="#94a3b8" />
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="gdgr"
                   style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '10px',
-                    backgroundColor: 'var(--folder-input-bg)',
-                    borderRadius: '999px',
-                    padding: '10px 18px',
-                    border: '1.5px solid rgba(0,0,0,0.15)',
-                    boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
+                    border: 'none',
+                    outline: 'none',
+                    backgroundColor: 'transparent',
+                    width: '100%',
+                    fontSize: '15px',
+                    color: '#000000',
+                    fontFamily: 'monospace',
                   }}
-                >
-                  <Search size={18} color="#94a3b8" />
-                  <input
-                    type="text"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    onFocus={() => setSearchFocused(true)}
-                    onBlur={() => setTimeout(() => setSearchFocused(false), 200)}
-                    placeholder="gdgr"
-                    style={{
-                      border: 'none',
-                      outline: 'none',
-                      backgroundColor: 'transparent',
-                      width: '100%',
-                      fontSize: '16px',
-                      color: 'var(--folder-input-text)',
-                      fontFamily: 'monospace',
-                    }}
-                  />
-                  {searchQuery && (
-                    <button
-                      onClick={() => setSearchQuery('')}
-                      style={{ background: 'none', border: 'none', cursor: 'pointer' }}
-                    >
-                      <X size={16} color="#64748b" />
-                    </button>
-                  )}
-                </div>
-
-                {/* Search Results Dropdown */}
-                {searchFocused && filteredSearch.length > 0 && (
-                  <div
-                    className="brutal-box"
-                    style={{
-                      position: 'absolute',
-                      top: '115%',
-                      left: 0,
-                      width: '100%',
-                      backgroundColor: 'var(--card-bg)',
-                      borderRadius: '12px',
-                      padding: '8px',
-                      zIndex: 50,
-                      maxHeight: '220px',
-                      overflowY: 'auto',
-                    }}
-                  >
-                    {filteredSearch.map((item, idx) => (
-                      <a
-                        key={idx}
-                        href={item.link}
-                        style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'space-between',
-                          padding: '8px 12px',
-                          textDecoration: 'none',
-                          borderRadius: '6px',
-                          color: 'var(--text-main)',
-                          fontSize: '13px',
-                          fontWeight: 600,
-                        }}
-                        onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#f1f5f9')}
-                        onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'transparent')}
-                      >
-                        <span>{item.title}</span>
-                        <span
-                          style={{
-                            fontSize: '10px',
-                            background: '#e2e8f0',
-                            padding: '2px 6px',
-                            borderRadius: '4px',
-                            color: '#475569',
-                          }}
-                        >
-                          {item.type}
-                        </span>
-                      </a>
-                    ))}
-                  </div>
-                )}
+                />
               </div>
             </div>
           </div>
@@ -763,7 +492,7 @@ export default function Home() {
       </section>
 
       {/* ======================================================== */}
-      {/* 3. PAGE 2: UPCOMING EVENT */}
+      {/* 3. PAGE 2: UPCOMING EVENT (EXACT REPLICA OF IMAGE 2) */}
       {/* ======================================================== */}
       <section
         id="events"
@@ -771,7 +500,7 @@ export default function Home() {
           width: '100%',
           maxWidth: '1240px',
           margin: '0 auto',
-          padding: '60px 24px 80px',
+          padding: '60px 24px 90px',
         }}
       >
         <h2
@@ -780,13 +509,13 @@ export default function Home() {
             fontSize: 'clamp(2.2rem, 4vw, 3.2rem)',
             textAlign: 'center',
             marginBottom: '48px',
-            color: 'var(--text-main)',
+            color: '#000000',
           }}
         >
           Upcoming Event
         </h2>
 
-        {/* Two-part Perforated Ticket Card Container */}
+        {/* Two-part Connected Ticket Cards */}
         <div
           className="ticket-container"
           style={{
@@ -798,11 +527,11 @@ export default function Home() {
             position: 'relative',
           }}
         >
-          {/* Left Card: Event Details */}
+          {/* Left Card: Metallic Silver-to-Black Gradient */}
           <div
             className="brutal-box-static"
             style={{
-              background: `linear-gradient(180deg, var(--ticket-left-top) 0%, var(--ticket-left-bottom) 100%)`,
+              background: `linear-gradient(180deg, #cfd3dc 0%, #111827 100%)`,
               borderRadius: '24px',
               padding: '36px 36px 32px',
               color: '#ffffff',
@@ -814,7 +543,6 @@ export default function Home() {
             }}
           >
             <div>
-              {/* Top Subtitle & Tag */}
               <div
                 style={{
                   display: 'flex',
@@ -825,7 +553,7 @@ export default function Home() {
               >
                 <span
                   style={{
-                    fontSize: '13px',
+                    fontSize: '12px',
                     fontWeight: 700,
                     letterSpacing: '0.05em',
                     color: '#e2e8f0',
@@ -840,7 +568,7 @@ export default function Home() {
                     color: '#000000',
                     fontSize: '11px',
                     fontWeight: 800,
-                    padding: '4px 12px',
+                    padding: '3px 12px',
                     borderRadius: '999px',
                     border: '1.5px solid #000',
                   }}
@@ -849,7 +577,6 @@ export default function Home() {
                 </span>
               </div>
 
-              {/* Main Event Title */}
               <h3
                 style={{
                   fontSize: 'clamp(1.6rem, 2.5vw, 2.1rem)',
@@ -862,10 +589,9 @@ export default function Home() {
                 GDG ORIENTATION
               </h3>
 
-              {/* Event Description */}
               <p
                 style={{
-                  fontSize: '14px',
+                  fontSize: '13.5px',
                   lineHeight: 1.65,
                   color: '#cbd5e1',
                   maxWidth: '440px',
@@ -877,7 +603,7 @@ export default function Home() {
               </p>
             </div>
 
-            {/* Bottom Left Circular Button */}
+            {/* Circular Yellow Button with Diagonal Arrow */}
             <div style={{ marginTop: '24px' }}>
               <button
                 onClick={() => setIsEventDetailOpen(true)}
@@ -901,11 +627,11 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Right Card: Perforated Yellow Stub */}
+          {/* Right Card: Golden Yellow Stub with Notch */}
           <div
             className="brutal-box-static"
             style={{
-              backgroundColor: 'var(--ticket-right-bg)',
+              backgroundColor: '#fbbf24',
               borderRadius: '24px',
               padding: '36px 32px 32px',
               color: '#000000',
@@ -916,7 +642,7 @@ export default function Home() {
               position: 'relative',
             }}
           >
-            {/* Notch cutout on left border matching design */}
+            {/* Cutout Notch */}
             <div
               style={{
                 position: 'absolute',
@@ -925,14 +651,14 @@ export default function Home() {
                 transform: 'translateY(-50%)',
                 width: '24px',
                 height: '24px',
-                backgroundColor: 'var(--bg-page)',
+                backgroundColor: '#ffffff',
                 borderRadius: '50%',
                 border: '2.5px solid #000',
                 zIndex: 2,
               }}
             />
 
-            {/* Dashed line extending horizontally from notch */}
+            {/* Dashed line */}
             <div
               style={{
                 position: 'absolute',
@@ -944,7 +670,6 @@ export default function Home() {
             />
 
             <div>
-              {/* Retro Pixel Event Header */}
               <h3
                 className="font-pixel"
                 style={{
@@ -958,11 +683,10 @@ export default function Home() {
                 Event
               </h3>
 
-              {/* Date & Time block */}
               <div>
                 <p
                   style={{
-                    fontSize: '12px',
+                    fontSize: '11px',
                     fontWeight: 800,
                     letterSpacing: '0.08em',
                     color: '#451a03',
@@ -971,28 +695,11 @@ export default function Home() {
                 >
                   DATE & TIME
                 </p>
-                <p
-                  style={{
-                    fontSize: '18px',
-                    fontWeight: 800,
-                    lineHeight: 1.3,
-                  }}
-                >
-                  Oct 7, 2026
-                </p>
-                <p
-                  style={{
-                    fontSize: '18px',
-                    fontWeight: 800,
-                    lineHeight: 1.3,
-                  }}
-                >
-                  3:00 PM
-                </p>
+                <p style={{ fontSize: '17px', fontWeight: 800, lineHeight: 1.3 }}>Oct 7, 2026</p>
+                <p style={{ fontSize: '17px', fontWeight: 800, lineHeight: 1.3 }}>3:00 PM</p>
               </div>
             </div>
 
-            {/* Register Now Pill Button */}
             <div style={{ marginTop: '24px' }}>
               <button
                 onClick={() => {
@@ -1020,7 +727,7 @@ export default function Home() {
       </section>
 
       {/* ======================================================== */}
-      {/* 4. PAGE 3: MEET THE GOOGLE DEVELOPER GROUP TEAM */}
+      {/* 4. PAGE 3: MEET THE TEAM (EXACT REPLICA OF IMAGE 3) */}
       {/* ======================================================== */}
       <section
         id="team"
@@ -1028,7 +735,7 @@ export default function Home() {
           width: '100%',
           maxWidth: '1240px',
           margin: '0 auto',
-          padding: '60px 24px 80px',
+          padding: '60px 24px 90px',
         }}
       >
         <div
@@ -1036,8 +743,8 @@ export default function Home() {
           style={{
             maxWidth: '1000px',
             margin: '0 auto',
-            backgroundColor: 'var(--card-bg)',
-            borderRadius: '4px',
+            backgroundColor: '#ffffff',
+            borderRadius: '0px',
             display: 'grid',
             gridTemplateColumns: '1.05fr 1fr',
             overflow: 'hidden',
@@ -1058,7 +765,7 @@ export default function Home() {
               style={{
                 fontSize: 'clamp(1.8rem, 3vw, 2.7rem)',
                 lineHeight: 1.18,
-                color: 'var(--text-main)',
+                color: '#000000',
               }}
             >
               Meet the
@@ -1074,7 +781,7 @@ export default function Home() {
               style={{
                 fontSize: '14px',
                 lineHeight: 1.6,
-                color: 'var(--text-muted)',
+                color: '#4b5563',
               }}
             >
               Google Developer Groups (GDG) are open and volunteer-run communities for developers interested in Google
@@ -1082,126 +789,46 @@ export default function Home() {
               sessions.
             </p>
 
-            {/* Two Tabs inside the card */}
-            <div style={{ display: 'flex', gap: '10px' }}>
-              <button
-                type="button"
-                onClick={() => setTeamTab('leaders')}
-                className="brutal-pill"
-                style={{
-                  backgroundColor: teamTab === 'leaders' ? '#fbbf24' : 'var(--card-bg)',
-                  color: '#000000',
-                  padding: '7px 18px',
-                  fontSize: '13px',
-                  cursor: 'pointer',
-                  border: '2px solid #000',
-                }}
-              >
-                Community Leaders
-              </button>
-              <button
-                type="button"
-                onClick={() => setTeamTab('domains')}
-                className="brutal-pill"
-                style={{
-                  backgroundColor: teamTab === 'domains' ? '#3b82f6' : 'var(--card-bg)',
-                  color: teamTab === 'domains' ? '#ffffff' : '#000000',
-                  padding: '7px 18px',
-                  fontSize: '13px',
-                  cursor: 'pointer',
-                  border: '2px solid #000',
-                }}
-              >
-                Tech Domains
-              </button>
+            {/* Feature 1 */}
+            <div style={{ display: 'flex', gap: '14px', alignItems: 'flex-start' }}>
+              <CheckCircle2 size={22} color="#000000" style={{ flexShrink: 0, marginTop: '2px' }} />
+              <div>
+                <h4
+                  style={{
+                    fontSize: '15px',
+                    fontWeight: 800,
+                    color: '#000000',
+                    marginBottom: '4px',
+                  }}
+                >
+                  Passionate Community Leaders
+                </h4>
+                <p style={{ fontSize: '13px', lineHeight: 1.5, color: '#4b5563' }}>
+                  Our organizers build an inclusive environment where developers can connect, share knowledge, and grow
+                  together.
+                </p>
+              </div>
             </div>
 
-            {teamTab === 'leaders' ? (
-              <>
-                {/* Feature 1 */}
-                <div style={{ display: 'flex', gap: '14px', alignItems: 'flex-start' }}>
-                  <CheckCircle2 size={22} color="#059669" style={{ flexShrink: 0, marginTop: '2px' }} />
-                  <div>
-                    <h4
-                      style={{
-                        fontSize: '15px',
-                        fontWeight: 800,
-                        color: 'var(--text-main)',
-                        marginBottom: '4px',
-                      }}
-                    >
-                      Passionate Community Leaders
-                    </h4>
-                    <p style={{ fontSize: '13px', lineHeight: 1.5, color: 'var(--text-muted)' }}>
-                      Our organizers build an inclusive environment where developers can connect, share knowledge, and grow
-                      together.
-                    </p>
-                  </div>
-                </div>
-
-                {/* Feature 2 */}
-                <div style={{ display: 'flex', gap: '14px', alignItems: 'flex-start' }}>
-                  <CheckCircle2 size={22} color="#059669" style={{ flexShrink: 0, marginTop: '2px' }} />
-                  <div>
-                    <h4
-                      style={{
-                        fontSize: '15px',
-                        fontWeight: 800,
-                        color: 'var(--text-main)',
-                        marginBottom: '4px',
-                      }}
-                    >
-                      Empowering Developers
-                    </h4>
-                    <p style={{ fontSize: '13px', lineHeight: 1.5, color: 'var(--text-muted)' }}>
-                      We host meetups and codelabs to help developers stay current with modern tools and best practices.
-                    </p>
-                  </div>
-                </div>
-              </>
-            ) : (
-              <>
-                {/* Domain Feature 1 */}
-                <div style={{ display: 'flex', gap: '14px', alignItems: 'flex-start' }}>
-                  <CheckCircle2 size={22} color="#3b82f6" style={{ flexShrink: 0, marginTop: '2px' }} />
-                  <div>
-                    <h4
-                      style={{
-                        fontSize: '15px',
-                        fontWeight: 800,
-                        color: 'var(--text-main)',
-                        marginBottom: '4px',
-                      }}
-                    >
-                      Web & Cloud Engineering
-                    </h4>
-                    <p style={{ fontSize: '13px', lineHeight: 1.5, color: 'var(--text-muted)' }}>
-                      Hands-on workshops covering React, Next.js, modern web performance, and Google Cloud study jams with certified mentors.
-                    </p>
-                  </div>
-                </div>
-
-                {/* Domain Feature 2 */}
-                <div style={{ display: 'flex', gap: '14px', alignItems: 'flex-start' }}>
-                  <CheckCircle2 size={22} color="#3b82f6" style={{ flexShrink: 0, marginTop: '2px' }} />
-                  <div>
-                    <h4
-                      style={{
-                        fontSize: '15px',
-                        fontWeight: 800,
-                        color: 'var(--text-main)',
-                        marginBottom: '4px',
-                      }}
-                    >
-                      AI / Machine Learning & Android
-                    </h4>
-                    <p style={{ fontSize: '13px', lineHeight: 1.5, color: 'var(--text-muted)' }}>
-                      Project sprints exploring TensorFlow, Gemini APIs, Kotlin, and agentic workflows for real campus problem statements.
-                    </p>
-                  </div>
-                </div>
-              </>
-            )}
+            {/* Feature 2 */}
+            <div style={{ display: 'flex', gap: '14px', alignItems: 'flex-start' }}>
+              <CheckCircle2 size={22} color="#000000" style={{ flexShrink: 0, marginTop: '2px' }} />
+              <div>
+                <h4
+                  style={{
+                    fontSize: '15px',
+                    fontWeight: 800,
+                    color: '#000000',
+                    marginBottom: '4px',
+                  }}
+                >
+                  Empowering Developers
+                </h4>
+                <p style={{ fontSize: '13px', lineHeight: 1.5, color: '#4b5563' }}>
+                  We host meetups and codelabs to help developers stay current with modern tools and best practices.
+                </p>
+              </div>
+            </div>
           </div>
 
           {/* Right Column: Actual Team Photo */}
@@ -1209,7 +836,7 @@ export default function Home() {
             style={{
               position: 'relative',
               minHeight: '440px',
-              borderLeft: '2.5px solid var(--card-border)',
+              borderLeft: '2.5px solid #000000',
               backgroundColor: '#f1f5f9',
             }}
           >
@@ -1228,7 +855,7 @@ export default function Home() {
       </section>
 
       {/* ======================================================== */}
-      {/* 5. PAGE 4: FAQs SECTION */}
+      {/* 5. PAGE 4: FAQs (EXACT REPLICA OF IMAGE 4) */}
       {/* ======================================================== */}
       <section
         id="faqs"
@@ -1236,7 +863,7 @@ export default function Home() {
           width: '100%',
           maxWidth: '1240px',
           margin: '0 auto',
-          padding: '60px 24px 80px',
+          padding: '60px 24px 90px',
         }}
       >
         <h2
@@ -1245,7 +872,7 @@ export default function Home() {
             fontSize: 'clamp(2.4rem, 4.5vw, 3.6rem)',
             textAlign: 'center',
             marginBottom: '48px',
-            color: 'var(--text-main)',
+            color: '#000000',
           }}
         >
           FAQs
@@ -1265,39 +892,36 @@ export default function Home() {
             const isOpen = activeFaq === item.id;
             return (
               <div key={item.id} style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                {/* Accordion Header Box */}
                 <button
                   onClick={() => setActiveFaq(isOpen ? null : item.id)}
                   className="brutal-box"
                   style={{
                     width: '100%',
-                    backgroundColor: 'var(--faq-bg)',
-                    borderRadius: '10px',
+                    backgroundColor: '#ffffff',
+                    borderRadius: '8px',
                     padding: '18px 24px',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'space-between',
                     cursor: 'pointer',
                     textAlign: 'left',
-                    color: 'var(--text-main)',
+                    color: '#000000',
                   }}
                 >
-                  <span style={{ fontSize: '16px', fontWeight: 800 }}>{item.question}</span>
+                  <span style={{ fontSize: '15px', fontWeight: 800 }}>{item.question}</span>
                   {isOpen ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
                 </button>
 
-                {/* Accordion Expanded Content Box */}
                 {isOpen && (
                   <div
                     className="brutal-box"
                     style={{
-                      backgroundColor: 'var(--faq-expanded-bg)',
-                      borderRadius: '10px',
+                      backgroundColor: '#ffffff',
+                      borderRadius: '8px',
                       padding: '20px 24px',
-                      color: 'var(--text-main)',
-                      fontSize: '14.5px',
+                      color: '#000000',
+                      fontSize: '14px',
                       lineHeight: 1.6,
-                      animation: 'fadeIn 0.2s ease',
                     }}
                   >
                     {item.answer}
@@ -1310,7 +934,7 @@ export default function Home() {
       </section>
 
       {/* ======================================================== */}
-      {/* 6. PAGE 5: FOOTER & CONTACT */}
+      {/* 6. PAGE 5: FOOTER & CONTACT (EXACT REPLICA OF IMAGE 5) */}
       {/* ======================================================== */}
       <footer
         id="contact"
@@ -1327,15 +951,14 @@ export default function Home() {
           style={{
             maxWidth: '960px',
             margin: '0 auto',
-            backgroundColor: 'var(--card-bg)',
-            borderRadius: '4px',
+            backgroundColor: '#ffffff',
+            borderRadius: '0px',
             padding: '48px 44px 44px',
             position: 'relative',
           }}
         >
           {/* Center Brand Header */}
           <div style={{ textAlign: 'center', marginBottom: '32px' }}>
-            {/* GDG Brackets Logo */}
             <div style={{ display: 'inline-flex', marginBottom: '14px' }}>
               <svg width="60" height="34" viewBox="0 0 64 36" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
@@ -1361,7 +984,7 @@ export default function Home() {
               className="font-pixel"
               style={{
                 fontSize: 'clamp(1.7rem, 2.8vw, 2.3rem)',
-                color: 'var(--text-main)',
+                color: '#000000',
                 marginBottom: '8px',
               }}
             >
@@ -1371,7 +994,7 @@ export default function Home() {
               style={{
                 fontSize: '15px',
                 fontWeight: 700,
-                color: 'var(--text-muted)',
+                color: '#52525b',
               }}
             >
               On Campus • Ramdeobaba University
@@ -1402,8 +1025,8 @@ export default function Home() {
               <div
                 className="brutal-box"
                 style={{
-                  backgroundColor: 'var(--footer-blue-bg)',
-                  borderRadius: '10px',
+                  backgroundColor: '#4285F4',
+                  borderRadius: '0px',
                   padding: '16px 20px',
                   display: 'flex',
                   alignItems: 'center',
@@ -1429,8 +1052,8 @@ export default function Home() {
                 href="mailto:gdsc@rknec.edu"
                 className="brutal-box"
                 style={{
-                  backgroundColor: 'var(--footer-yellow-bg)',
-                  borderRadius: '10px',
+                  backgroundColor: '#FBBC04',
+                  borderRadius: '0px',
                   padding: '16px 20px',
                   display: 'flex',
                   alignItems: 'center',
@@ -1450,8 +1073,8 @@ export default function Home() {
             <div
               className="brutal-box"
               style={{
-                backgroundColor: 'var(--footer-purple-bg)',
-                borderRadius: '10px',
+                backgroundColor: '#7C4DFF',
+                borderRadius: '0px',
                 padding: '24px 20px',
                 display: 'flex',
                 flexDirection: 'column',
@@ -1474,7 +1097,7 @@ export default function Home() {
                     width: '46px',
                     height: '46px',
                     backgroundColor: '#fb7185',
-                    borderRadius: '8px',
+                    borderRadius: '4px',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
@@ -1499,7 +1122,7 @@ export default function Home() {
                     width: '46px',
                     height: '46px',
                     backgroundColor: '#38bdf8',
-                    borderRadius: '8px',
+                    borderRadius: '4px',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
@@ -1522,7 +1145,7 @@ export default function Home() {
                     width: '46px',
                     height: '46px',
                     backgroundColor: '#4ade80',
-                    borderRadius: '8px',
+                    borderRadius: '4px',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
@@ -1539,7 +1162,7 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Bottom Decorative Colorful Geometric Shapes Pattern */}
+        {/* Bottom Decorative Colorful Geometric Shapes Pattern (Matches Image 5 Exactly) */}
         <div style={{ width: '100%', overflow: 'hidden', marginTop: '20px', display: 'flex' }}>
           <svg
             viewBox="0 0 1200 120"
@@ -1562,7 +1185,7 @@ export default function Home() {
       </footer>
 
       {/* ======================================================== */}
-      {/* MODAL 1: REGISTRATION MODAL WITH CONFETTI & PASS */}
+      {/* MODAL: EVENT REGISTRATION */}
       {/* ======================================================== */}
       {isRegisterOpen && (
         <div
@@ -1583,7 +1206,7 @@ export default function Home() {
             style={{
               width: '100%',
               maxWidth: '480px',
-              backgroundColor: 'var(--card-bg)',
+              backgroundColor: '#ffffff',
               borderRadius: '16px',
               padding: '32px',
               position: 'relative',
@@ -1617,11 +1240,11 @@ export default function Home() {
               <div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px' }}>
                   <Ticket size={24} color="#f59e0b" />
-                  <h3 className="font-pixel" style={{ fontSize: '20px', color: 'var(--text-main)' }}>
+                  <h3 className="font-pixel" style={{ fontSize: '20px', color: '#000' }}>
                     Event Registration
                   </h3>
                 </div>
-                <p style={{ fontSize: '13px', color: 'var(--text-muted)', marginBottom: '20px' }}>
+                <p style={{ fontSize: '13px', color: '#64748b', marginBottom: '20px' }}>
                   Reserve your seat for the GDG Orientation on Oct 7, 2026.
                 </p>
 
@@ -1643,8 +1266,8 @@ export default function Home() {
                         borderRadius: '8px',
                         outline: 'none',
                         fontSize: '14px',
-                        backgroundColor: 'var(--card-bg)',
-                        color: 'var(--text-main)',
+                        backgroundColor: '#fff',
+                        color: '#000',
                       }}
                     />
                   </div>
@@ -1666,8 +1289,8 @@ export default function Home() {
                         borderRadius: '8px',
                         outline: 'none',
                         fontSize: '14px',
-                        backgroundColor: 'var(--card-bg)',
-                        color: 'var(--text-main)',
+                        backgroundColor: '#fff',
+                        color: '#000',
                       }}
                     />
                   </div>
@@ -1686,8 +1309,8 @@ export default function Home() {
                         borderRadius: '8px',
                         outline: 'none',
                         fontSize: '14px',
-                        backgroundColor: 'var(--card-bg)',
-                        color: 'var(--text-main)',
+                        backgroundColor: '#fff',
+                        color: '#000',
                       }}
                     >
                       <option>Computer Science & Engineering</option>
@@ -1717,62 +1340,13 @@ export default function Home() {
                 </form>
               </div>
             ) : (
-              /* Success Pass View */
               <div style={{ textAlign: 'center' }}>
-                <div
-                  style={{
-                    width: '60px',
-                    height: '60px',
-                    borderRadius: '50%',
-                    backgroundColor: '#dcfce7',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    margin: '0 auto 14px',
-                  }}
-                >
-                  <CheckCircle2 size={36} color="#16a34a" />
-                </div>
-                <h3 className="font-pixel" style={{ fontSize: '20px', marginBottom: '8px', color: 'var(--text-main)' }}>
+                <h3 className="font-pixel" style={{ fontSize: '20px', marginBottom: '8px', color: '#000' }}>
                   You are In!
                 </h3>
-                <p style={{ fontSize: '14px', color: 'var(--text-muted)', marginBottom: '20px' }}>
-                  Awesome! We have emailed your orientation pass to <strong>{regEmail}</strong>.
+                <p style={{ fontSize: '14px', color: '#64748b', marginBottom: '20px' }}>
+                  Your orientation pass has been reserved for <strong>{regName}</strong> ({regEmail}).
                 </p>
-
-                {/* Digital Ticket Pass Card */}
-                <div
-                  className="brutal-box"
-                  style={{
-                    backgroundColor: '#fbbf24',
-                    padding: '20px',
-                    borderRadius: '12px',
-                    color: '#000',
-                    textAlign: 'left',
-                    marginBottom: '20px',
-                  }}
-                >
-                  <p style={{ fontSize: '11px', fontWeight: 800, letterSpacing: '0.08em', color: '#78350f' }}>
-                    TICKET PASS #GDG-2026-RBU
-                  </p>
-                  <h4 style={{ fontSize: '18px', fontWeight: 900, marginTop: '4px' }}>{regName}</h4>
-                  <p style={{ fontSize: '13px', color: '#451a03', marginTop: '4px' }}>{regBranch}</p>
-                  <div
-                    style={{
-                      borderTop: '1.5px dashed #000',
-                      marginTop: '12px',
-                      paddingTop: '10px',
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      fontSize: '12px',
-                      fontWeight: 700,
-                    }}
-                  >
-                    <span>Oct 7, 2026 • 3:00 PM</span>
-                    <span>Auditorium, RBU</span>
-                  </div>
-                </div>
-
                 <button
                   onClick={() => setIsRegisterOpen(false)}
                   className="brutal-box"
@@ -1793,323 +1367,9 @@ export default function Home() {
         </div>
       )}
 
-      {/* ======================================================== */}
-      {/* MODAL 2: EVENT DETAILS MODAL */}
-      {/* ======================================================== */}
-      {isEventDetailOpen && (
-        <div
-          style={{
-            position: 'fixed',
-            inset: 0,
-            backgroundColor: 'rgba(0,0,0,0.6)',
-            backdropFilter: 'blur(4px)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            zIndex: 1000,
-            padding: '20px',
-          }}
-        >
-          <div
-            className="brutal-box"
-            style={{
-              width: '100%',
-              maxWidth: '540px',
-              backgroundColor: 'var(--card-bg)',
-              borderRadius: '16px',
-              padding: '32px',
-              position: 'relative',
-            }}
-          >
-            <button
-              onClick={() => setIsEventDetailOpen(false)}
-              style={{
-                position: 'absolute',
-                top: '18px',
-                right: '18px',
-                background: '#000',
-                color: '#fff',
-                border: 'none',
-                borderRadius: '50%',
-                width: '30px',
-                height: '30px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                cursor: 'pointer',
-              }}
-            >
-              <X size={18} />
-            </button>
-
-            <span
-              style={{
-                backgroundColor: '#3b82f6',
-                color: '#fff',
-                fontSize: '11px',
-                fontWeight: 800,
-                padding: '4px 10px',
-                borderRadius: '6px',
-                letterSpacing: '0.05em',
-              }}
-            >
-              EVENT DETAILS
-            </span>
-
-            <h3 className="font-pixel" style={{ fontSize: '22px', margin: '14px 0 12px', color: 'var(--text-main)' }}>
-              GDG ORIENTATION 2026
-            </h3>
-
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: '1fr 1fr',
-                gap: '12px',
-                marginBottom: '20px',
-              }}
-            >
-              <div
-                style={{
-                  backgroundColor: '#f1f5f9',
-                  padding: '12px',
-                  borderRadius: '8px',
-                  border: '1.5px solid #000',
-                }}
-              >
-                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#475569', fontSize: '12px' }}>
-                  <Calendar size={14} /> Date
-                </div>
-                <p style={{ fontWeight: 800, fontSize: '14px', marginTop: '4px', color: '#0f172a' }}>Oct 7, 2026</p>
-              </div>
-
-              <div
-                style={{
-                  backgroundColor: '#f1f5f9',
-                  padding: '12px',
-                  borderRadius: '8px',
-                  border: '1.5px solid #000',
-                }}
-              >
-                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#475569', fontSize: '12px' }}>
-                  <Clock size={14} /> Time
-                </div>
-                <p style={{ fontWeight: 800, fontSize: '14px', marginTop: '4px', color: '#0f172a' }}>3:00 PM IST</p>
-              </div>
-            </div>
-
-            <p style={{ fontSize: '14px', lineHeight: 1.6, color: 'var(--text-muted)', marginBottom: '20px' }}>
-              Join us for the most awaited campus technical orientation! Discover upcoming hands-on workshops in Web
-              Development, Android, AI/ML, and Google Cloud. Network with mentors, participate in quick quizzes, and win
-              exclusive Google Developer swag!
-            </p>
-
-            <button
-              onClick={() => {
-                setIsEventDetailOpen(false);
-                setIsRegisterOpen(true);
-              }}
-              className="brutal-box"
-              style={{
-                width: '100%',
-                backgroundColor: '#f59e0b',
-                color: '#000',
-                padding: '12px',
-                borderRadius: '8px',
-                fontWeight: 800,
-                fontSize: '15px',
-                cursor: 'pointer',
-              }}
-            >
-              Proceed to Register
-            </button>
-          </div>
-        </div>
-      )}
-
-      {/* ======================================================== */}
-      {/* MODAL 3: AI ASSISTANT MODAL (BONUS FEATURE) */}
-      {/* ======================================================== */}
-      {isAiOpen && (
-        <div
-          style={{
-            position: 'fixed',
-            inset: 0,
-            backgroundColor: 'rgba(0,0,0,0.6)',
-            backdropFilter: 'blur(4px)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            zIndex: 1000,
-            padding: '20px',
-          }}
-        >
-          <div
-            className="brutal-box"
-            style={{
-              width: '100%',
-              maxWidth: '520px',
-              backgroundColor: 'var(--card-bg)',
-              borderRadius: '16px',
-              padding: '24px',
-              position: 'relative',
-              display: 'flex',
-              flexDirection: 'column',
-              height: '560px',
-            }}
-          >
-            {/* Header */}
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                paddingBottom: '16px',
-                borderBottom: '2px solid #e2e8f0',
-              }}
-            >
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <Sparkles size={20} color="#f59e0b" />
-                <h3 className="font-pixel" style={{ fontSize: '17px', color: 'var(--text-main)' }}>
-                  GDG RBU AI Assistant
-                </h3>
-              </div>
-              <button
-                onClick={() => setIsAiOpen(false)}
-                style={{
-                  background: '#000',
-                  color: '#fff',
-                  border: 'none',
-                  borderRadius: '50%',
-                  width: '28px',
-                  height: '28px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  cursor: 'pointer',
-                }}
-              >
-                <X size={16} />
-              </button>
-            </div>
-
-            {/* Chat Messages */}
-            <div
-              style={{
-                flex: 1,
-                overflowY: 'auto',
-                padding: '16px 0',
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '12px',
-              }}
-            >
-              {messages.map((m, idx) => (
-                <div
-                  key={idx}
-                  style={{
-                    alignSelf: m.sender === 'user' ? 'flex-end' : 'flex-start',
-                    maxWidth: '85%',
-                    backgroundColor: m.sender === 'user' ? '#3b82f6' : '#f1f5f9',
-                    color: m.sender === 'user' ? '#ffffff' : '#0f172a',
-                    padding: '12px 16px',
-                    borderRadius: '12px',
-                    fontSize: '13.5px',
-                    lineHeight: 1.5,
-                    border: '1.5px solid #000',
-                    boxShadow: '2px 2px 0px #000',
-                  }}
-                >
-                  {m.text}
-                </div>
-              ))}
-            </div>
-
-            {/* Suggested quick questions */}
-            <div
-              style={{
-                display: 'flex',
-                gap: '6px',
-                overflowX: 'auto',
-                paddingBottom: '10px',
-                marginBottom: '4px',
-              }}
-            >
-              {[
-                'Tell me about upcoming events',
-                'How to submit frontend task?',
-                'Who can join GDG?',
-              ].map((query, i) => (
-                <button
-                  key={i}
-                  onClick={() => {
-                    setInputMsg(query);
-                  }}
-                  style={{
-                    whiteSpace: 'nowrap',
-                    padding: '4px 10px',
-                    fontSize: '11px',
-                    fontWeight: 600,
-                    borderRadius: '999px',
-                    border: '1px solid #cbd5e1',
-                    background: 'var(--card-bg)',
-                    color: 'var(--text-main)',
-                    cursor: 'pointer',
-                  }}
-                >
-                  {query}
-                </button>
-              ))}
-            </div>
-
-            {/* Input field */}
-            <div style={{ display: 'flex', gap: '8px' }}>
-              <input
-                type="text"
-                value={inputMsg}
-                onChange={(e) => setInputMsg(e.target.value)}
-                onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
-                placeholder="Ask anything about GDG RBU..."
-                className="brutal-box"
-                style={{
-                  flex: 1,
-                  padding: '10px 14px',
-                  borderRadius: '8px',
-                  outline: 'none',
-                  fontSize: '13.5px',
-                  backgroundColor: 'var(--card-bg)',
-                  color: 'var(--text-main)',
-                }}
-              />
-              <button
-                onClick={handleSendMessage}
-                className="brutal-box"
-                style={{
-                  backgroundColor: '#000',
-                  color: '#fff',
-                  padding: '0 16px',
-                  borderRadius: '8px',
-                  cursor: 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-              >
-                <Send size={16} />
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Responsive Breakpoint CSS */}
+      {/* Responsive Styles */}
       <style jsx global>{`
         @media (max-width: 900px) {
-          .desktop-nav {
-            display: none !important;
-          }
-          .mobile-menu-btn {
-            display: block !important;
-          }
           .hero-grid {
             grid-template-columns: 1fr !important;
             text-align: center;
@@ -2121,21 +1381,11 @@ export default function Home() {
             grid-template-columns: 1fr !important;
           }
           .ticket-container > div:first-child {
-            border-right: 2.5px solid var(--card-border) !important;
+            border-right: 2.5px solid #000000 !important;
             border-bottom: none !important;
           }
           .footer-grid {
             grid-template-columns: 1fr !important;
-          }
-        }
-        @keyframes fadeIn {
-          from {
-            opacity: 0;
-            transform: translateY(-4px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
           }
         }
       `}</style>
