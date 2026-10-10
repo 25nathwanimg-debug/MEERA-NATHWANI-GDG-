@@ -13,8 +13,6 @@ import {
   CheckCircle2,
   X,
   Ticket,
-  User,
-  ExternalLink,
   Moon,
   Sun,
 } from 'lucide-react';
@@ -63,20 +61,17 @@ export default function Home() {
   const [isPortfolioOpen, setIsPortfolioOpen] = useState(false);
 
   useEffect(() => {
-    const savedTheme = typeof window !== 'undefined' ? localStorage.getItem('gdg-theme') : null;
-    if (savedTheme) {
-      setTheme(savedTheme);
-      document.documentElement.setAttribute('data-theme', savedTheme);
-    }
+    const saved = typeof window !== 'undefined' ? localStorage.getItem('gdg-theme') : null;
+    const initial = saved || 'light';
+    setTheme(initial);
+    document.documentElement.setAttribute('data-theme', initial);
   }, []);
 
   const toggleTheme = () => {
-    const nextTheme = theme === 'light' ? 'dark' : 'light';
-    setTheme(nextTheme);
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('gdg-theme', nextTheme);
-    }
-    document.documentElement.setAttribute('data-theme', nextTheme);
+    const next = theme === 'light' ? 'dark' : 'light';
+    setTheme(next);
+    if (typeof window !== 'undefined') localStorage.setItem('gdg-theme', next);
+    document.documentElement.setAttribute('data-theme', next);
   };
 
   // Registration Form State
@@ -859,12 +854,13 @@ export default function Home() {
       <section id="faqs" className="slide-section" style={{ minHeight: '100vh', justifyContent: 'center' }}>
         <div style={{ width: '100%', maxWidth: '840px', margin: 'auto' }}>
           <h2
-            className="font-pixel"
             style={{
-              fontSize: 'clamp(2.6rem, 4.8vw, 3.8rem)',
+              fontFamily: "'Press Start 2P', monospace",
+              fontSize: 'clamp(1.8rem, 3.5vw, 3rem)',
               textAlign: 'center',
               marginBottom: '48px',
               color: 'var(--text-main, #000000)',
+              letterSpacing: '0.02em',
             }}
           >
             FAQs
@@ -1791,8 +1787,9 @@ export default function Home() {
         </div>
       )}
 
-      {/* Responsive Styles */}
+      {/* Responsive Styles + Press Start 2P font for FAQs */}
       <style jsx global>{`
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
         @media (max-width: 900px) {
           .hero-grid {
             grid-template-columns: 1fr !important;
