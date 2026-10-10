@@ -6,19 +6,19 @@
 
 ---
 
-## 🌟 Overview & Design Fidelity
+## 🌟 Overview & Architecture
 
-This project is a pixel-perfect, fully responsive web application replicating the provided **GDG RBU Figma UI design** across all 5 sequential pages/sections. Built with a modern neo-brutalist aesthetic, high-contrast borders, playful retro typography, and the official Google Developer Groups color palette.
+This project is a pixel-perfect, fully responsive web application built with **React (.jsx)** replicating the provided **GDG RBU Figma UI design** across all 5 sequential pages/sections. Built with a modern neo-brutalist aesthetic, high-contrast borders, playful retro typography, and the official Google Developer Groups color palette.
 
 ### ✨ Implemented Sections (Pages 1 to 5)
 
-1. **Header & Navigation Bar**:
-   - Official multi-color GDG chevron brackets logo.
-   - Neo-brutalist navigation pills: **Home** (Blue), **Team** (Coral/Red), **Events** (Yellow), **Gallery** (Green), **Portfolio** (Purple), and **More** (Sky Blue).
+1. **Header & Navigation Bar (Page 1)**:
+   - Official multi-color GDG chevron brackets logo (Blue, Red, Yellow, Green).
+   - Neo-brutalist navigation buttons: **Home** (Blue), **Team** (Coral/Red), **Events** (Yellow), **Gallery** (Green), **Portfolio** (Purple), and **More** (Sky Blue).
    - User profile indicator for **Saptanshu Wanjari** with an interactive profile details drawer.
-   - **Dark / Light Mode Toggle** button.
+   - **Dark / Light Mode Toggle** button with persistent `localStorage` preference.
    - **Ask AI Assistant** button with instant access to the GDG virtual guide.
-   - Mobile responsive menu for smaller screen viewports.
+   - Responsive hamburger navigation for mobile viewports.
 
 2. **Hero Section (Page 1)**:
    - Retro arcade display headline in pixel typography: `GOOGLE DEVELOPER GROUPS, RBU`.
@@ -60,84 +60,99 @@ This project is a pixel-perfect, fully responsive web application replicating th
 
 ---
 
-## 🚀 Bonus Features Included
-
-- [x] **Built with Next.js (App Router)**: Native server & client components, zero-config deployment on Vercel.
-- [x] **Strict TypeScript Type Safety**: Fully typed interfaces for all components, state, and datasets.
-- [x] **Dark / Light Mode**: Seamless theme switching with persistent `localStorage` preference and smooth CSS transitions.
-- [x] **AI-Powered GDG Assistant**: Interactive conversational chatbot modal answering questions regarding orientation, recruitment drive, Google technologies, and domains.
-- [x] **Interactive Ticket Registration & Confetti**: Real-time pass generation with particle explosion effects.
-- [x] **Live Directory Search**: Filter through GDG resources directly from the Hero folder search pill.
-
----
-
 ## 🛠️ Tech Stack
 
-- **Framework**: [Next.js 14](https://nextjs.org/)
-- **UI Library**: [React 18](https://react.js.org/)
-- **Language**: [TypeScript](https://www.typescriptlang.org/)
-- **Styling**: Vanilla CSS & Custom Design Tokens (Neo-Brutalism)
-- **Icons**: [Lucide React](https://lucide.dev/) + Custom SVG Icons
-- **Effects**: [canvas-confetti](https://www.npmjs.com/package/canvas-confetti)
-- **Deployment**: [Vercel](https://vercel.com/)
+- **UI Framework / Library**: Pure **React (.jsx)** with Next.js App Architecture
+- **Language**: JavaScript (ES6+ / JSX - no TypeScript)
+- **Styling**: Vanilla CSS with Custom Design Tokens (Neo-Brutalism)
+- **Icons**: Lucide Icons + Custom Vector SVGs
+- **Celebratory Effects**: `canvas-confetti`
+- **Hosting & CI/CD**: Vercel
 
 ---
 
-## 📦 Getting Started Locally
+## 🚀 Complete Step-by-Step Vercel Deployment Guide
 
-### Prerequisites
+Deploying this website to Vercel takes less than 2 minutes. Follow these exact steps:
 
-- Node.js (v18.0.0 or higher recommended)
-- npm or yarn
+### Method 1: Deploy Directly via GitHub (Recommended)
 
-### Installation
+1. **Push your code to GitHub**:
+   In your terminal, run:
+   ```bash
+   git add .
+   git commit -m "feat: convert GDG RBU website to pure React JSX with responsive neo-brutalism design"
+   git push origin main
+   ```
 
-1. Clone this repository:
+2. **Open Vercel**:
+   - Go to [vercel.com](https://vercel.com) and log in with your GitHub account.
+
+3. **Import Project**:
+   - On the Vercel Dashboard, click the **"Add New..."** button (top right) and select **"Project"**.
+   - Look for your repository: `25nathwanimg-debug/MEERA-NATHWANI-GDG-`.
+   - Click **"Import"** next to it.
+
+4. **Configure & Deploy**:
+   - **Project Name**: `meera-nathwani-gdg-rbu` (or keep default).
+   - **Framework Preset**: Vercel will automatically detect **Next.js**.
+   - **Root Directory**: `./` (leave default).
+   - **Build Command**: `next build` (leave default).
+   - **Output Directory**: `.next` (leave default).
+   - Click the blue **"Deploy"** button.
+
+5. **Get Your Live URL**:
+   - In ~30 to 45 seconds, Vercel will build and deploy the site!
+   - You will get a live production URL like `https://meera-nathwani-gdg-rbu.vercel.app`.
+   - Every time you push to the `main` branch, Vercel will automatically update the live site.
+
+---
+
+### Method 2: Deploy via Vercel CLI (Alternative from Terminal)
+
+If you have the Vercel CLI installed:
+```bash
+npm i -g vercel
+vercel
+```
+Follow the prompts (accept default settings for each prompt), and Vercel will deploy immediately!
+
+---
+
+## 💻 Local Development Setup
+
+To run the project on your local machine:
+
+1. **Clone the repository**:
    ```bash
    git clone https://github.com/25nathwanimg-debug/MEERA-NATHWANI-GDG-.git
    cd MEERA-NATHWANI-GDG-
    ```
 
-2. Install dependencies:
+2. **Install dependencies**:
    ```bash
    npm install
    ```
 
-3. Run the development server:
+3. **Start the development server**:
    ```bash
    npm run dev
    ```
 
-4. Open [http://localhost:3000](http://localhost:3000) in your browser.
+4. **View in your browser**:
+   Open [http://localhost:3000](http://localhost:3000).
 
-### Production Build
-
-```bash
-npm run build
-npm run start
-```
-
----
-
-## 🌐 Deployment on Vercel
-
-This application is optimized for 1-click deployment on Vercel:
-
-1. Push your latest code to GitHub:
+5. **Build for production test**:
    ```bash
-   git add .
-   git commit -m "feat: complete GDG RBU website with responsive neo-brutalism design and bonus features"
-   git push origin main
+   npm run build
+   npm run start
    ```
-2. Log in to [Vercel](https://vercel.com) and click **"Add New Project"**.
-3. Import the repository: `25nathwanimg-debug/MEERA-NATHWANI-GDG-`.
-4. Framework preset will automatically detect **Next.js**. Click **Deploy**.
-5. Your live URL will be ready within 60 seconds!
 
 ---
 
-## 👤 Author
+## 👤 Author & Submission
 
-- **Name**: Meera Nathwani
-- **Role**: Frontend Web Developer Candidate
-- **Organization**: Google Developer Groups On Campus Ramdeobaba University
+- **Candidate**: Meera Nathwani
+- **Role**: Frontend Web Developer
+- **Organization**: Google Developer Groups On Campus Ramdeobaba University (GDG RBU)
+- **GitHub**: [https://github.com/25nathwanimg-debug/MEERA-NATHWANI-GDG-](https://github.com/25nathwanimg-debug/MEERA-NATHWANI-GDG-)

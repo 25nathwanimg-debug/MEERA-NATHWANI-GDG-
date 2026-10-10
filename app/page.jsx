@@ -19,8 +19,6 @@ import {
   Ticket,
   Calendar,
   Clock,
-  User,
-  Share2,
   Menu
 } from 'lucide-react';
 
@@ -71,8 +69,8 @@ const SEARCHABLE_ITEMS = [
 ];
 
 export default function Home() {
-  const [theme, setTheme] = useState<'light' | 'dark'>('light');
-  const [activeFaq, setActiveFaq] = useState<number | null>(1); // Item 1 open by default
+  const [theme, setTheme] = useState('light');
+  const [activeFaq, setActiveFaq] = useState(1); // Item 1 open by default
   const [searchQuery, setSearchQuery] = useState('');
   const [searchFocused, setSearchFocused] = useState(false);
   const [isRegisterOpen, setIsRegisterOpen] = useState(false);
@@ -88,7 +86,7 @@ export default function Home() {
   const [regRegistered, setRegRegistered] = useState(false);
 
   // AI Chat State
-  const [messages, setMessages] = useState<Array<{ sender: 'bot' | 'user'; text: string }>>([
+  const [messages, setMessages] = useState([
     {
       sender: 'bot',
       text: 'Hi there! 👋 I am the GDG RBU AI Assistant. How can I help you today? Ask about recruitment, upcoming events, or Google tech domains!',
@@ -98,7 +96,7 @@ export default function Home() {
 
   // Handle Theme
   useEffect(() => {
-    const savedTheme = localStorage.getItem('gdg-theme') as 'light' | 'dark' | null;
+    const savedTheme = localStorage.getItem('gdg-theme');
     if (savedTheme) {
       setTheme(savedTheme);
       document.documentElement.setAttribute('data-theme', savedTheme);
@@ -131,7 +129,7 @@ export default function Home() {
     });
   };
 
-  const handleRegisterSubmit = (e: React.FormEvent) => {
+  const handleRegisterSubmit = (e) => {
     e.preventDefault();
     if (!regName || !regEmail) return;
     setRegRegistered(true);
@@ -142,7 +140,7 @@ export default function Home() {
   const handleSendMessage = () => {
     if (!inputMsg.trim()) return;
     const userText = inputMsg.trim();
-    const newMsgs = [...messages, { sender: 'user' as const, text: userText }];
+    const newMsgs = [...messages, { sender: 'user', text: userText }];
     setMessages(newMsgs);
     setInputMsg('');
 
@@ -610,7 +608,7 @@ export default function Home() {
               minHeight: '320px',
             }}
           >
-            {/* Custom Stepped Folder SVG Shape for 100% exact reproduction of design */}
+            {/* Custom Stepped Folder SVG Shape */}
             <svg
               viewBox="0 0 500 340"
               style={{
@@ -619,13 +617,6 @@ export default function Home() {
                 filter: 'drop-shadow(6px 6px 0px rgba(0,0,0,0.25))',
               }}
             >
-              <defs>
-                <linearGradient id="folderGradient" x1="0" y1="0" x2="1" y2="1">
-                  <stop offset="0%" stopColor="#000000" />
-                  <stop offset="100%" stopColor="#0a0a0a" />
-                </linearGradient>
-              </defs>
-              {/* Stepped folder outline: tab on top-right, wider base on left */}
               <path
                 d="M 50 110 
                    C 22 110 0 132 0 160 
@@ -1459,34 +1450,23 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Bottom Decorative Colorful Geometric Shapes Pattern (Matches Design Exactly) */}
+        {/* Bottom Decorative Colorful Geometric Shapes Pattern */}
         <div style={{ width: '100%', overflow: 'hidden', marginTop: '20px', display: 'flex' }}>
           <svg
             viewBox="0 0 1200 120"
             style={{ width: '100%', height: 'auto', display: 'block' }}
             xmlns="http://www.w3.org/2000/svg"
           >
-            {/* Green slanted rectangle */}
             <rect x="0" y="70" width="140" height="70" rx="10" transform="rotate(-25 0 70)" fill="#10b981" />
-            {/* Blue triangle */}
             <polygon points="120,120 180,30 240,120" fill="#3b82f6" />
-            {/* Yellow diamond */}
             <rect x="220" y="60" width="70" height="70" rx="12" transform="rotate(45 220 60)" fill="#fbbf24" />
-            {/* Red tilted rectangle */}
             <rect x="330" y="40" width="60" height="100" rx="12" transform="rotate(15 330 40)" fill="#ef4444" />
-            {/* Yellow circle */}
             <circle cx="460" cy="80" r="65" fill="#f59e0b" />
-            {/* Green square tilted */}
             <rect x="580" y="60" width="90" height="90" rx="14" transform="rotate(35 580 60)" fill="#059669" />
-            {/* Red semi-circle */}
             <path d="M 720 120 A 55 55 0 0 1 830 120 Z" fill="#dc2626" />
-            {/* Yellow big circle */}
             <circle cx="880" cy="70" r="50" fill="#facc15" />
-            {/* Red smaller circle */}
             <circle cx="980" cy="90" r="35" fill="#ea4335" />
-            {/* Blue polygon */}
             <polygon points="1030,120 1100,50 1160,120" fill="#2563eb" />
-            {/* Green pill */}
             <rect x="1100" y="40" width="60" height="120" rx="16" transform="rotate(30 1100 40)" fill="#16a34a" />
           </svg>
         </div>
@@ -2042,7 +2022,7 @@ export default function Home() {
             display: block !important;
           }
           .hero-grid {
-            grid-templateColumns: 1fr !important;
+            grid-template-columns: 1fr !important;
             text-align: center;
           }
           .hero-grid > div:first-child {

@@ -1,7 +1,6 @@
-import type { Metadata, Viewport } from 'next';
 import './globals.css';
 
-export const metadata: Metadata = {
+export const metadata = {
   title: 'Google Developer Groups, RBU | GDG On Campus Ramdeobaba University',
   description: 'Empowering students with cutting-edge tech skills, community, and resources for a future in technology. GDG On Campus Ramdeobaba University.',
   keywords: ['GDG', 'Google Developer Groups', 'GDG RBU', 'Ramdeobaba University', 'Web Development', 'Tech Community', 'Frontend'],
@@ -11,16 +10,12 @@ export const metadata: Metadata = {
   },
 };
 
-export const viewport: Viewport = {
+export const viewport = {
   width: 'device-width',
   initialScale: 1,
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
