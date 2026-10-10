@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import confetti from 'canvas-confetti';
 import {
@@ -14,7 +14,9 @@ import {
   X,
   Ticket,
   User,
-  ExternalLink
+  ExternalLink,
+  Moon,
+  Sun,
 } from 'lucide-react';
 
 const FAQ_ITEMS = [
@@ -51,6 +53,7 @@ const FAQ_ITEMS = [
 ];
 
 export default function Home() {
+  const [theme, setTheme] = useState('light');
   const [activeFaq, setActiveFaq] = useState(1);
   const [searchQuery, setSearchQuery] = useState('');
   const [isRegisterOpen, setIsRegisterOpen] = useState(false);
@@ -58,6 +61,23 @@ export default function Home() {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isGalleryOpen, setIsGalleryOpen] = useState(false);
   const [isPortfolioOpen, setIsPortfolioOpen] = useState(false);
+
+  useEffect(() => {
+    const savedTheme = typeof window !== 'undefined' ? localStorage.getItem('gdg-theme') : null;
+    if (savedTheme) {
+      setTheme(savedTheme);
+      document.documentElement.setAttribute('data-theme', savedTheme);
+    }
+  }, []);
+
+  const toggleTheme = () => {
+    const nextTheme = theme === 'light' ? 'dark' : 'light';
+    setTheme(nextTheme);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('gdg-theme', nextTheme);
+    }
+    document.documentElement.setAttribute('data-theme', nextTheme);
+  };
 
   // Registration Form State
   const [regName, setRegName] = useState('');
@@ -229,8 +249,28 @@ export default function Home() {
             </a>
           </nav>
 
-          {/* Right: Saptanshu Wanjari Profile */}
-          <div style={{ position: 'relative' }}>
+          {/* Right: Theme Toggle & Saptanshu Wanjari Profile */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            {/* Light / Dark Mode Toggle Button */}
+            <button
+              type="button"
+              onClick={toggleTheme}
+              className="brutal-pill"
+              title={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
+              aria-label="Toggle Dark / Light Mode"
+              style={{
+                backgroundColor: theme === 'dark' ? '#1e293b' : '#ffffff',
+                color: theme === 'dark' ? '#fbbf24' : '#000000',
+                padding: '7px 12px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                cursor: 'pointer',
+              }}
+            >
+              {theme === 'dark' ? <Sun size={17} color="#fbbf24" /> : <Moon size={17} color="#000000" />}
+            </button>
+
             <button
               onClick={() => setIsProfileOpen(true)}
               style={{
@@ -259,14 +299,14 @@ export default function Home() {
                 style={{
                   fontSize: '13px',
                   fontWeight: 600,
-                  color: '#000000',
+                  color: 'var(--text-main, #000000)',
                   display: 'flex',
                   alignItems: 'center',
                   gap: '4px',
                 }}
               >
                 Saptanshu Wanjari
-                <ChevronDown size={14} color="#666" />
+                <ChevronDown size={14} color={theme === 'dark' ? '#cbd5e1' : '#666'} />
               </span>
             </button>
           </div>
@@ -292,7 +332,7 @@ export default function Home() {
               style={{
                 fontSize: 'clamp(2.5rem, 5vw, 4.4rem)',
                 lineHeight: 1.15,
-                color: '#000000',
+                color: 'var(--text-main, #000000)',
                 textTransform: 'uppercase',
                 letterSpacing: '-0.02em',
               }}
@@ -306,7 +346,7 @@ export default function Home() {
               style={{
                 fontSize: 'clamp(1.1rem, 2vw, 1.4rem)',
                 lineHeight: 1.7,
-                color: '#262626',
+                color: 'var(--text-muted, #4b5563)',
                 maxWidth: '540px',
                 fontWeight: 400,
               }}
@@ -325,8 +365,8 @@ export default function Home() {
                 }}
                 className="brutal-box"
                 style={{
-                  backgroundColor: '#ffffff',
-                  color: '#000000',
+                  backgroundColor: 'var(--card-bg, #ffffff)',
+                  color: 'var(--text-main, #000000)',
                   padding: '14px 30px',
                   fontWeight: 800,
                   fontSize: '15px',
@@ -344,8 +384,8 @@ export default function Home() {
                 onClick={() => setIsProfileOpen(true)}
                 className="brutal-box"
                 style={{
-                  backgroundColor: '#ffffff',
-                  color: '#000000',
+                  backgroundColor: 'var(--card-bg, #ffffff)',
+                  color: 'var(--text-main, #000000)',
                   padding: '14px 30px',
                   fontWeight: 800,
                   fontSize: '15px',
@@ -476,7 +516,7 @@ export default function Home() {
               fontSize: 'clamp(2.4rem, 4vw, 3.4rem)',
               textAlign: 'center',
               marginBottom: '48px',
-              color: '#000000',
+              color: 'var(--text-main, #000000)',
             }}
           >
             Upcoming Event
@@ -497,7 +537,7 @@ export default function Home() {
             <div
               className="brutal-box-static"
               style={{
-                background: `linear-gradient(180deg, #cfd3dc 0%, #111827 100%)`,
+                background: `linear-gradient(180deg, var(--ticket-left-top, #cfd3dc) 0%, var(--ticket-left-bottom, #111827) 100%)`,
                 borderRadius: '24px',
                 padding: '40px 38px 36px',
                 color: '#ffffff',
@@ -617,7 +657,7 @@ export default function Home() {
                   transform: 'translateY(-50%)',
                   width: '24px',
                   height: '24px',
-                  backgroundColor: '#ffffff',
+                  backgroundColor: 'var(--bg-page, #ffffff)',
                   borderRadius: '50%',
                   border: '2.5px solid #000',
                   zIndex: 2,
@@ -702,7 +742,7 @@ export default function Home() {
           style={{
             width: '100%',
             maxWidth: '1040px',
-            backgroundColor: '#ffffff',
+            backgroundColor: 'var(--card-bg, #ffffff)',
             borderRadius: '0px',
             display: 'grid',
             gridTemplateColumns: '1.05fr 1fr',
@@ -724,7 +764,7 @@ export default function Home() {
               style={{
                 fontSize: 'clamp(1.9rem, 3.2vw, 2.8rem)',
                 lineHeight: 1.18,
-                color: '#000000',
+                color: 'var(--text-main, #000000)',
               }}
             >
               Meet the
@@ -740,7 +780,7 @@ export default function Home() {
               style={{
                 fontSize: '14px',
                 lineHeight: 1.6,
-                color: '#4b5563',
+                color: 'var(--text-muted, #4b5563)',
               }}
             >
               Google Developer Groups (GDG) are open and volunteer-run communities for developers interested in Google
@@ -750,19 +790,19 @@ export default function Home() {
 
             {/* Feature 1 */}
             <div style={{ display: 'flex', gap: '14px', alignItems: 'flex-start' }}>
-              <CheckCircle2 size={22} color="#000000" style={{ flexShrink: 0, marginTop: '2px' }} />
+              <CheckCircle2 size={22} color="var(--text-main, #000000)" style={{ flexShrink: 0, marginTop: '2px' }} />
               <div>
                 <h4
                   style={{
                     fontSize: '15px',
                     fontWeight: 800,
-                    color: '#000000',
+                    color: 'var(--text-main, #000000)',
                     marginBottom: '4px',
                   }}
                 >
                   Passionate Community Leaders
                 </h4>
-                <p style={{ fontSize: '13px', lineHeight: 1.5, color: '#4b5563' }}>
+                <p style={{ fontSize: '13px', lineHeight: 1.5, color: 'var(--text-muted, #4b5563)' }}>
                   Our organizers build an inclusive environment where developers can connect, share knowledge, and grow
                   together.
                 </p>
@@ -771,19 +811,19 @@ export default function Home() {
 
             {/* Feature 2 */}
             <div style={{ display: 'flex', gap: '14px', alignItems: 'flex-start' }}>
-              <CheckCircle2 size={22} color="#000000" style={{ flexShrink: 0, marginTop: '2px' }} />
+              <CheckCircle2 size={22} color="var(--text-main, #000000)" style={{ flexShrink: 0, marginTop: '2px' }} />
               <div>
                 <h4
                   style={{
                     fontSize: '15px',
                     fontWeight: 800,
-                    color: '#000000',
+                    color: 'var(--text-main, #000000)',
                     marginBottom: '4px',
                   }}
                 >
                   Empowering Developers
                 </h4>
-                <p style={{ fontSize: '13px', lineHeight: 1.5, color: '#4b5563' }}>
+                <p style={{ fontSize: '13px', lineHeight: 1.5, color: 'var(--text-muted, #4b5563)' }}>
                   We host meetups and codelabs to help developers stay current with modern tools and best practices.
                 </p>
               </div>
@@ -824,7 +864,7 @@ export default function Home() {
               fontSize: 'clamp(2.6rem, 4.8vw, 3.8rem)',
               textAlign: 'center',
               marginBottom: '48px',
-              color: '#000000',
+              color: 'var(--text-main, #000000)',
             }}
           >
             FAQs
@@ -847,7 +887,7 @@ export default function Home() {
                     className="brutal-box"
                     style={{
                       width: '100%',
-                      backgroundColor: '#ffffff',
+                      backgroundColor: 'var(--faq-bg, #ffffff)',
                       borderRadius: '8px',
                       padding: '18px 24px',
                       display: 'flex',
@@ -855,7 +895,7 @@ export default function Home() {
                       justifyContent: 'space-between',
                       cursor: 'pointer',
                       textAlign: 'left',
-                      color: '#000000',
+                      color: 'var(--text-main, #000000)',
                     }}
                   >
                     <span style={{ fontSize: '15px', fontWeight: 800 }}>{item.question}</span>
@@ -866,10 +906,10 @@ export default function Home() {
                     <div
                       className="brutal-box"
                       style={{
-                        backgroundColor: '#ffffff',
+                        backgroundColor: 'var(--faq-expanded-bg, #f8fafc)',
                         borderRadius: '8px',
                         padding: '20px 24px',
-                        color: '#000000',
+                        color: 'var(--text-main, #000000)',
                         fontSize: '14px',
                         lineHeight: 1.6,
                       }}
@@ -902,7 +942,7 @@ export default function Home() {
           <div
             className="brutal-box-static"
             style={{
-              backgroundColor: '#ffffff',
+              backgroundColor: 'var(--card-bg, #ffffff)',
               borderRadius: '0px',
               padding: '52px 48px 48px',
               position: 'relative',
@@ -935,7 +975,7 @@ export default function Home() {
                 className="font-pixel"
                 style={{
                   fontSize: 'clamp(1.7rem, 2.8vw, 2.3rem)',
-                  color: '#000000',
+                  color: 'var(--text-main, #000000)',
                   marginBottom: '8px',
                 }}
               >
@@ -945,7 +985,7 @@ export default function Home() {
                 style={{
                   fontSize: '15px',
                   fontWeight: 700,
-                  color: '#52525b',
+                  color: 'var(--text-muted, #52525b)',
                 }}
               >
                 On Campus • Ramdeobaba University
@@ -1158,7 +1198,7 @@ export default function Home() {
             style={{
               width: '100%',
               maxWidth: '460px',
-              backgroundColor: '#ffffff',
+              backgroundColor: 'var(--card-bg, #ffffff)',
               borderRadius: '16px',
               padding: '32px',
               position: 'relative',
@@ -1201,7 +1241,7 @@ export default function Home() {
               </div>
 
               <div>
-                <h3 className="font-pixel" style={{ fontSize: '20px', color: '#000000', marginBottom: '4px' }}>
+                <h3 className="font-pixel" style={{ fontSize: '20px', color: 'var(--text-main, #000000)', marginBottom: '4px' }}>
                   Saptanshu Wanjari
                 </h3>
                 <span
@@ -1287,7 +1327,7 @@ export default function Home() {
             style={{
               width: '100%',
               maxWidth: '560px',
-              backgroundColor: '#ffffff',
+              backgroundColor: 'var(--card-bg, #ffffff)',
               borderRadius: '16px',
               padding: '32px',
               position: 'relative',
@@ -1329,7 +1369,7 @@ export default function Home() {
               COMMUNITY HIGHLIGHTS
             </span>
 
-            <h3 className="font-pixel" style={{ fontSize: '22px', margin: '14px 0 10px', color: '#000' }}>
+            <h3 className="font-pixel" style={{ fontSize: '22px', margin: '14px 0 10px', color: 'var(--text-main, #000000)' }}>
               GDG RBU Gallery
             </h3>
             <p style={{ fontSize: '13.5px', color: '#4b5563', marginBottom: '20px' }}>
@@ -1392,7 +1432,7 @@ export default function Home() {
             style={{
               width: '100%',
               maxWidth: '560px',
-              backgroundColor: '#ffffff',
+              backgroundColor: 'var(--card-bg, #ffffff)',
               borderRadius: '16px',
               padding: '32px',
               position: 'relative',
@@ -1434,7 +1474,7 @@ export default function Home() {
               STUDENT SHOWCASE
             </span>
 
-            <h3 className="font-pixel" style={{ fontSize: '22px', margin: '14px 0 10px', color: '#000' }}>
+            <h3 className="font-pixel" style={{ fontSize: '22px', margin: '14px 0 10px', color: 'var(--text-main, #000000)' }}>
               GDG Student Portfolio
             </h3>
             <p style={{ fontSize: '13.5px', color: '#4b5563', marginBottom: '20px' }}>
@@ -1495,7 +1535,7 @@ export default function Home() {
             style={{
               width: '100%',
               maxWidth: '500px',
-              backgroundColor: '#ffffff',
+              backgroundColor: 'var(--card-bg, #ffffff)',
               borderRadius: '16px',
               padding: '32px',
               position: 'relative',
@@ -1537,7 +1577,7 @@ export default function Home() {
               EVENT DETAILS
             </span>
 
-            <h3 className="font-pixel" style={{ fontSize: '22px', margin: '14px 0 10px', color: '#000' }}>
+            <h3 className="font-pixel" style={{ fontSize: '22px', margin: '14px 0 10px', color: 'var(--text-main, #000000)' }}>
               GDG ORIENTATION 2026
             </h3>
 
@@ -1589,7 +1629,7 @@ export default function Home() {
             style={{
               width: '100%',
               maxWidth: '480px',
-              backgroundColor: '#ffffff',
+              backgroundColor: 'var(--card-bg, #ffffff)',
               borderRadius: '16px',
               padding: '32px',
               position: 'relative',
@@ -1624,7 +1664,7 @@ export default function Home() {
               <div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px' }}>
                   <Ticket size={24} color="#f59e0b" />
-                  <h3 className="font-pixel" style={{ fontSize: '20px', color: '#000' }}>
+                  <h3 className="font-pixel" style={{ fontSize: '20px', color: 'var(--text-main, #000000)' }}>
                     Event Registration
                   </h3>
                 </div>
